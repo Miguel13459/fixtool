@@ -1,0 +1,376 @@
+#cuerpoInventario label,#cuerpoInventario p,#cuerpoInventario input, #cuerpoInventario textarea{
+    font-size: 1rem;
+    font-family: "Roboto", sans-serif;
+}
+
+input[type="text"], textarea{
+    padding: 8px;
+}
+
+input[type="text"]:focus, textarea:focus{
+    background-color: #f4f7fa;
+    border: 2px solid #CC6D19;
+}
+
+#meterImagen label, #titulo label, #descripcion label{
+    margin-bottom: 6px;
+}
+
+.secciones{
+    margin-bottom: 24px;
+}
+
+#cuerpoInventario{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#envaceInventario{
+    width: 70%;
+    display: flex;
+}
+
+/*------------------------parte izquierda -----------------*/
+#informacionProducto{
+    width: 40vw;
+}
+
+#cajaInfoProducto{
+    margin: 15px;
+    padding: 30px;
+    background-color: #ffffff;
+    height: 83.7vh;
+    overflow-y: auto;
+}
+
+/*elementos escondidos*/
+
+#CajaBotonCrearPublicacion{
+    display: block;
+}
+
+#formulario{
+    display: none;
+}
+
+/*---------------------Boton para subir nuevo producto-------------------*/
+#contenidoBotonCrear{
+    width: 100%;
+    height: 46vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#tituloCrear{
+    width: 100%;
+    margin: 16px 0;
+    display: flex;
+    justify-content: center;
+}
+
+#cajaBotonCrear{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* -------------------------Formulario ----------------------------------*/
+#cajaInfoProducto::-webkit-scrollbar{
+    width: 8px;
+}
+
+#cajaInfoProducto::-webkit-scrollbar-thumb{
+    background-color: #0D2555;
+    border-radius: 3px;
+}
+
+#cajaInfoProducto::-webkit-scrollbar-track{
+    background-color: #d8dfe7;
+}
+
+#cajaInfoProducto::-webkit-scrollbar-thumb:hover {
+    background-color: #193675;
+}
+
+#inventarioDeProductos{
+    width: 100%;
+}
+
+#skuProducto{
+    width: 100%;
+}
+
+#skuProducto p{
+    font-size: 0.9rem;
+}
+
+#previsualizarImagen{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#preview{
+    width: 150px;
+}
+
+#meterImagen{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#titulo, #descripcion{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#textoDescripcion{
+    height: 140px;
+}
+
+#precioCantidadCaja input{
+    width: 5vw;
+}
+
+#precioCantidadCaja{
+    display: flex;
+}
+
+.cajitaInputPrecioCantidad{
+    display: flex;
+    align-items: end;
+    margin: 6px 0;
+}
+
+#precioPorLote{
+    margin: 0 6px;
+}
+
+#paquetePorLote{
+    margin-right: 6px;
+}
+
+#precio{
+    margin-right: 4vw;
+}
+
+#precioPorUnidad{
+    display: flex;
+}
+
+#precioUnidad{
+    margin-left: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+#tipoMarcaCaja{
+    display: flex;
+    justify-content: space-between;
+}
+
+#tipoMarcaCaja input{
+    width: 10vw;
+}
+
+#promocion{
+    margin-right: 3.2vw;
+}
+
+#promocionEstatusCaja{
+    display: flex;
+}
+
+#promocionEstatusCaja p{
+    margin-bottom: 6px;
+}
+
+#promocionEstatusCaja label{
+    font-size: 0.9rem;
+    margin-left: 4px;
+}
+
+#cajaActivoDescontinuado{
+    display: flex;
+}
+
+.cajaConCheck{
+    display: flex;
+    margin-right: 16px;
+}
+
+#promocionAplicable{
+    width: 100%;
+    display: flex;
+    align-items: end;
+}
+
+#cajaPromocion{
+    width: 8vw;
+}
+
+#cajaPromocion input{
+    margin-top: 6px;
+}
+
+#promocionAplicable input{
+    width: 6vw;
+}
+
+#promocionAplicable p{
+    font-size: 0.9rem;
+}
+
+#precioConDescuento{
+    margin-right: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+#contenedorBoton{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.botonInventario{
+    padding: 10px;
+    width: 200px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #0D2555;
+    color: #f3f3f3;
+}
+
+.botonInventario:hover{
+    background-color: #163a81;
+    cursor: pointer;
+}
+
+.botonInventario:active{
+    background-color: #214691;
+}
+
+/*-------------------Parte derecha-------------------*/
+
+#cajaInventario{
+    margin: 10px;
+}
+
+#tituloInventario{
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* lista de productos*/
+
+#listaDeProductos{
+    width: 100%;
+    height: 80vh;
+    overflow-y: auto;
+}
+
+#listaDeProductos::-webkit-scrollbar{
+    width: 6px;
+}
+
+#listaDeProductos::-webkit-scrollbar-thumb{
+    background-color: #0D2555;
+    border-radius: 3px;
+}
+
+#listaDeProductos::-webkit-scrollbar-thumb:hover {
+    background-color: #193675;
+}
+
+#listaDeProductos::-webkit-scrollbar-track{
+    background-color: #d8dfe7;
+    margin-left: 6px;
+}
+
+.cajaProducto{
+    width: 100%;
+    padding: 14px;
+    background-color: #ffffff;
+}
+
+.tituloEstatus{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cajaEstatus{
+    display: flex;
+    align-items: center;
+}
+
+.bolitaEstatus{
+    width: 1rem;
+    height: 1rem;
+    border-radius: .5rem;
+    background-color: #6bb97c ;
+    margin-left: 6px;
+}
+
+.imagenInfoyBoton{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cajitaInfoImg{
+    width: 60%;
+    display: flex;
+}
+
+.imagenProductoInventario{
+    width: 90px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgProductoInventario{
+    width: 80px;
+}
+
+.infoProducto{
+    margin: 10px;
+}
+
+.preciosUnidadesInventario{
+    display: flex;
+}
+
+.cajaBotonEliminar{
+    width: 40%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+.cajaBotonEliminar button{
+    width: 110px;
+    padding: 12px;
+    margin: 0 5px;
+    border-radius: 5px;
+    border: 1px solid #0D2555;
+    background-color: #ffffff;
+    padding: 8px;
+    font-size: 1rem;
+}
+
+.cajaBotonEliminar button:hover{
+    background-color: #bb3f45;
+    color: #ffffff;
+}
+

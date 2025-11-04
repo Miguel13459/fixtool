@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixTool</title>
+
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/inventario.css">
+    <link rel="stylesheet" href="./css/mensajesEmergentes/ventanaBorrar.css">
+
+    <link rel="stylesheet" href="./css/carrito.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        
+    </header>
+    <div id="cuerpoInventario">
+        <div id="envaceInventario">
+            <div id="informacionProducto">
+            <div id="cajaInfoProducto">
+
+                <!--Boton para crear nueva publicación-->
+                <div id="CajaBotonCrearPublicacion">
+                    <div id="contenidoBotonCrear">
+                        <div id="tituloCrear">
+                            <h3>Subir nuevo producto</h3>
+                        </div>
+                        <div id="cajaBotonCrear">
+                            <button class="botonInventario">Subir producto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--      FORMULARIO PARA CREAR UNA PUBLICACIÓN      -->
+                <div id="formulario">
+                    <div id="skuProducto" class="secciones">
+                        <p>SKU: </p>
+                    </div>
+                    <div id="previsualizarImagen" class="secciones">
+                        <img src="./recursos/img/view-preview-svgrepo-com.svg" alt="preview" id="preview">
+                    </div>
+                    <div id="meterImagen" class="secciones">
+                        <label for="imagen">Ingresa una imagen</label>
+                        <input type="file" name="imagen" id="ingresarImagen">
+                    </div>
+                    <div id="titulo" class="secciones">
+                        <label for="nombreProducto">Nombre del producto</label>
+                        <input type="text" name="nombreProducto" id="nombreProducto" placeholder="Nombre de su producto">
+                    </div>
+                    <div id="descripcion" class="secciones">
+                        <label for="textoDescripcion">Descripción del producto</label>
+                        <textarea name="textoDescripcion" id="textoDescripcion" placeholder="¿Qué es y cómo funciona su producto?"></textarea>
+                    </div>
+                    <div id="precioCantidadCaja" >
+                        <div id="precio">
+                            <label for="precioPorLote" id="pPu">Precio por unidad</label>
+                            <div class="cajitaInputPrecioCantidad">
+                                <p>$</p>
+                                <input type="text" name="precioPorLote" id="precioPorLote">
+                                <p>MX</p>
+                            </div>
+                        </div>
+                        <div id="Cantidad">
+                            <label for="paquetePorLote">Paquetes por lote</label>
+                            <div class="cajitaInputPrecioCantidad">
+                                <input type="text" name="paquetePorLote" id="paquetePorLote">
+                                <p>Piezas por lote</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="precioPorUnidad" class="secciones">
+                        <p>Precio por unidad: </p>
+                        <p id="precioUnidad">$ 00.00</p>
+                    </div>
+                    <div id="tipoMarcaCaja" class="secciones">
+                        <div id="tipo">
+                            <input type="text" name="tipoProducto" id="tipoProducto" placeholder="Tipo">
+                        </div>
+                        <div id="Marca">
+                            <input type="text" name="marcaProducto" id="marcaProducto" placeholder="Marca">
+                        </div>
+                    </div>
+                    <div id="promocionEstatusCaja" class="secciones">
+                        <div id="promocion">
+                            <p>Promoción</p>
+                            <div class="cajaConCheck">
+                                <input type="checkbox" name="estaPromocion" id="estaPromocion">
+                                <label for="estaPromocion">Está en promoción</label>
+                            </div>
+                        </div>
+                        <div id="estatus">
+                            <p>Estatus</p>
+                            <div id="cajaActivoDescontinuado">
+                                <div class="cajaConCheck">
+                                    <input type="checkbox" name="estaActivo" id="estaActivo">
+                                    <label for="estaActivo">Activo</label>
+                                </div>
+                                <div class="cajaConCheck">
+                                    <input type="checkbox" name="estaDescontinuado" id="estaDescontinuado">
+                                    <label for="estaDescontinuado">Descontinuado</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="promocionAplicable" class="secciones">
+                        <div id="cajaPromocion">
+                            <label for="ponerPromocion">Descuento aplicable</label>
+                            <input type="text" name="ponerPromocion" id="ponerPromocion">
+                        </div>
+                        <p id="precioConDescuento">$ 00.00</p>
+                        <p>Precio total con descuento</p>
+                    </div>
+                    <div id="contenedorBoton">
+                        <button class="botonInventario">Subir producto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="inventarioDeProductos">
+            <div id="cajaInventario">
+                <div id="tituloInventario">
+                    <h2>Mis productos</h2>
+                </div>
+                <div id="listaDeProductos">
+                    <div class="cajaProducto">
+                        <div class="tituloEstatus">
+                            <p class="skuInventario">SKU: HR-011</p>
+                            <div class="cajaEstatus">
+                                <p class="estatus">Estatus: Activo</p>
+                                <div class="bolitaEstatus"></div>
+                            </div>
+                        </div>
+                        <div class="imagenInfoyBoton">
+                            <div class="cajitaInfoImg">
+                                <div class="imagenProductoInventario">
+                                    <img src="./recursos/img/view-preview-svgrepo-com.svg" alt="imgProducto" class="imgProductoInventario">
+                                </div>
+                                <div class="infoProducto">
+                                    <p class="marcaInventario">BOCSH</p>
+                                    <p class="tituloInventario">Rotomartillo con bateria 18V</p>
+                                    <p class="piezasPorLoteInventario">Piezas por lote: 4</p>
+                                    <div class="preciosUnidadesInventario">
+                                        <p class="precioPorUnidad">Precio por unidad: $ 00.00 </p>
+                                        <p class="precioTotal">Precio total: $ 00.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cajaBotonEliminar">
+                                <button>Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!--anuncio de si quieres borrar el producto-->
+    <div id="ventanaBorrarEmergente">
+        <div id="anuncioBorrar">
+            <div id="quitarAnuncioBorrar">
+                <img src="./recursos/iconos/cancel.svg" alt="cancel" id="cancelarBorrar">
+            </div>
+            <div id="mentajeBorrar">
+                <p>¿Seguro que desea eliminar este producto?</p>
+            </div>
+            <div id="infoProductoBorrar">
+                <div id="imgContenedorBorrar">
+                    <img src="./recursos/img/view-preview-svgrepo-com.svg" alt="preview" id="previewBorrar">
+                </div>
+                <div id="infoBorrar">
+                    <p id="marcaBorrar">Milwaukee</p>
+                    <p id="tituloBorrar">Juego de 6 desarmadores</p>
+                    <p id="skuBorrar">HR-021</p>
+                    <div id="estatusProductoBorrar">
+                        <p>Estatus: Descontinuado</p>
+                        <div id="bolitaStatus"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="opciones">
+                <button id="botonAceptarBorrar">Aceptar</button>
+                <button id="botonCancelarBorrar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Profesor, si lee esto, estos divs que estan abajo son ventanas emergentes, se hizo así para evitar escribir tanto código en 
+    el HTML de todos los HTML y si tengo que modificar algo solo lo hago desde los códigos en la carpeta de componentes-->
+    <!--carrito-->
+    <div id="ventanaOscuraCarrito">
+        
+    </div>
+
+</body>
+<!--Componentes que se repiten en el document-->
+<script src="./js/componentes/header.js"></script>
+<script src="./js/componentes/carrito.js"></script>
+
+</html>

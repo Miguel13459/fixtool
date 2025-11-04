@@ -1,0 +1,213 @@
+#ventanaOscuraCarrito{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    position:absolute;
+    z-index: 999;
+    top: 0;
+    left: 0;
+
+    display: none;
+    justify-content: end;
+}
+
+#pantallaDelCarrito{
+    width: 25%;
+    background-color: #efefef;
+}
+
+#margenCarrito{
+    padding: 10px;
+}
+
+#headCarrito{
+    width: 100%;
+    margin-bottom: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cancelCarrito{
+    width: 24px;
+}
+
+#totalApagar{
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+#botonProcederPago{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#pagar{
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px;
+    background-color: #0D2555;
+    color: aliceblue;
+}
+
+#contenedorMercanciaCarrito{
+    width: 100%;
+    margin-top: 10px;
+    max-height: 76vh; /*se da una altura máxima para el carrito*/
+    overflow-y: auto; /*permite scrollear*/
+    padding-right: 6px;
+}
+
+/* Para que el scroll se vea bonito*/
+#contenedorMercanciaCarrito::-webkit-scrollbar {
+    width: 6px;
+}
+#contenedorMercanciaCarrito::-webkit-scrollbar-thumb {
+    background-color: #0D2555;
+    border-radius: 10px;
+}
+#contenedorMercanciaCarrito::-webkit-scrollbar-thumb:hover {
+    background-color: #193675;
+}
+
+/*------------- tarjetas-----------------*/
+.tarjetaCarrito{
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #aeaeae;
+    background-color: #ffffff;
+}
+
+.margenTarjetaCarrito{
+    padding: 10px;
+}
+
+.parteSuperiorCarrito{
+    width: 100%;
+}
+
+.parteSuperiorCarrito{
+    display: flex;
+}
+
+.productoCarrito{
+    width: 80px;
+}
+
+.imagenCarrito{
+    margin-right: 15px;
+}
+
+.infoProducto{
+    width: 100%;
+}
+
+.marcaSKU{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.marcaCarrito{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.extraInfo{
+    font-size: 0.8rem;
+}
+
+.carritoSKU{
+    margin-bottom: 5px;
+}
+
+.borrarProductoCarrito{
+    width: 24px;
+}
+
+.parteInferior{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.precioCarrito{
+    text-align: end;
+}
+
+.ofertaCarrito{
+    font-size: .8rem;
+    
+}
+
+.precioTotal{
+    display: flex;
+    justify-content: end;
+}
+
+.precioTotal p{
+    margin-left: 5px;
+}
+
+
+/*input de mas y menos*/
+.cantidadContenedorCarrito{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.numeroInfo{
+    font-size: 13px;
+}
+
+.noPaquetesCarrito {
+    height: 28px;
+    width: 70px;
+    border: 1px solid #0D2555;
+    text-align: center;
+    border-radius: 0; 
+    outline: none; 
+}
+
+.noPaquetes:focus {
+    border-radius: 0; 
+    border: 2px solid #0D2555;
+    outline: none; 
+}
+
+.botonMasCarrito{
+    height: 28px;
+    width: 28px;
+    background-color: #0D2555;
+    color: #f3f3f3;
+    border: none;
+}
+
+.botonMasCarrito:hover{
+    cursor: pointer;
+    background-color: #193675;
+}
+
+.botonMenosCarrito{
+    height: 28px;
+    width: 28px;
+    background-color: #ffffff;
+    border: 1px solid #0D2555;
+}
+
+.botonMenosCarrito:hover{
+    cursor: pointer;
+    background-color: #f3f3f3;
+}
+
+.precioTotalCarrito{
+    display: flex;
+    align-items: end;
+}
+
+.precioTotalCarrito p{
+    margin-left: 6px;
+}

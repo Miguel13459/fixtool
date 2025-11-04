@@ -1,0 +1,656 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+  
+    background-color: #eaeaea;
+}
+
+.icono{
+    width: 30px;
+}
+
+/*header*/
+header{
+    width: 100%;
+    background-color: #f3f3f3;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*nav1*/
+
+#barraArriba{
+    width: 100%;
+    height: 60px;
+
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+#logo{
+    height: 40px;
+    margin: 0 60px;
+}
+
+#barraBusquedaContenedor{
+    width: 50%;
+}
+
+#barraBusqueda {
+    width: 100%;
+    padding: 10px 10px 10px 45px;
+    border: 2px solid #0D2555;
+    border-radius:4px;
+    outline: none;
+    color: #0D2555;
+    font-size:15px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1' viewBox='0 0 22 22' %3E%3Cpath d='M14.92 14.07l6.04 6.04c.23.24.23.62 0 .86-.24.23-.62.23-.85 0l-6.03-6.04C12.57 16.22 10.63 17 8.5 17 3.8 17 0 13.2 0 8.5S3.8 0 8.5 0 17 3.8 17 8.5c0 2.13-.78 4.08-2.08 5.57zM8.5 16c4.14 0 7.5-3.36 7.5-7.5C16 4.36 12.64 1 8.5 1 4.36 1 1 4.36 1 8.5 1 12.64 4.36 16 8.5 16z' fill='black' /%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 8px center;
+    background-size: 1.675em;
+}
+
+#usuarioControles{
+    height: 100%;
+    margin: 0 30px;
+    display: flex;
+    align-items: center;
+}
+
+#botonesLogin{
+    width: 240px;
+    margin: 0 14px;
+}
+
+.botonesRegistro{
+    padding: 10px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+#inicioSesion{
+    background-color: #0D2555;
+    color: #f3f3f3;
+    
+}
+
+#registrar{
+    border: 1px solid #0D2555;
+    background-color: #ffffff;
+    padding: 8px;
+}
+
+/*nav2*/
+#contenedorNav{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+
+    background-color: #f3f3f3;
+}
+
+nav{
+    width: 90%;
+
+    display: flex;
+    align-items: center;
+}
+
+.botonBarraNav{
+    height: 100%;
+    padding: 0 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: 0.3s ease;
+}
+
+.botonBarraNav:hover{
+    background-color: #22222241;
+    cursor: pointer;
+}
+
+.botonBarraNav:active{
+    background-color: #2222225f;
+    cursor: pointer;
+}
+
+/*cuerpo*/
+
+#cuerpo{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*portada*/
+
+#portadaPromociones{
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#contenedorPortada{
+    width: 100%;
+    position: relative; /* para que pueda poner las flechitas*/
+}
+
+.portada{
+    width: 100%;
+    transition: opacity 0.4s ease;
+}
+
+#botonIzquierdaPortada {
+    left: 20px; /* para posicionar lateralmente */
+}
+
+#botonDerechaPortada {
+    right: 20px; /* para posicionar lateralmente*/
+}
+
+#izq{
+    width: 30px;
+}
+
+#der{ 
+    width: 30px;
+}
+
+.botonIzqDer{
+    width: 40px;
+    height: 40px;
+    background-color: #c0c0c068;
+    padding: 5px;
+    border-radius: 5px;
+
+    position: absolute; /* para sacar las flechas y ponerlas "encima" */
+    top: 50%; /* para posicionar */
+    transform: translateY(-50%); /* para posicionar */
+    
+}
+
+.botonIzqDer:hover{
+    background-color: #c0c0c089;
+    cursor: pointer;
+}
+
+.botonIzqDer:active{
+    background-color: #b4b4b4a8;
+    cursor: pointer;
+}
+
+#posicionPortada{
+    width: 100%;
+    height: 8vh;
+    /*margin-bottom: 20px;*/
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bolitaPortada{
+    width: 15px;
+    height: 15px;
+    border-radius: 8px;
+    background-color: #9a9a9a;
+    transition: background-color 0.3s;
+
+    margin: 0 18px;
+}
+
+/*promociones y categorias*/
+#parteCentralPagina{
+    width: 88%;
+}
+
+/*ofertas*/
+#seccionOfertas{
+    width: 100%;
+    margin-bottom: 8vh;
+}
+
+#tituloOfertas{
+    font-size: 1.5em;
+    margin: 5vh 0;
+}
+
+/*--------------------carrusel--------------------------------*/
+#carrusel {
+    width: 100%;
+    overflow: hidden; /* evita que se vean las tarjetas fuera del área visible */
+    position: relative;
+    
+}
+
+#contenedorOferta {
+    display: flex;
+    width: 100%;
+    transition: transform 0.4s ease;
+    will-change: transform;/*avisa al navegador que habrá cambios, son para animaciones*/
+}
+
+.tarjetaOferta, .tarjetaCatalogo{
+    width: 320px;
+    flex-shrink: 0;
+    background-color: #ffffff;
+    margin-right: 16px;
+}
+
+.margen{
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+}
+
+.sku{
+    font-size: 13px;
+    width: 100%;
+}
+
+.imagenContenedor{
+    width: 100%;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgProducto{
+    width: 120px;
+    height: 120px;
+}
+
+.imgProducto:hover{
+    cursor: pointer;
+}
+
+.informacion{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.parteIzquierda{
+    width: 50%;
+}
+
+.marca{
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.titulo{
+    font-size: 14px;
+}
+
+.titulo:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.parteDerecha{
+    width: 50%;
+    font-size: 12px;
+    text-align: end;
+}
+
+.parteDerecha p{
+    margin: 2px 0
+}
+
+.promocion{
+    width: 150px;
+    padding: 4px;
+    text-align: start;
+    display: flex;
+    border-radius: 4px;
+    margin-bottom: 5px;
+
+    background-color: #cc6d1922;
+}
+
+.iconoPromocionContenedor{
+    margin: 0 4px;
+
+    display: flex;
+    align-items: center;
+}
+
+.ofertaIcono{
+    width: 26px;
+}
+
+.precioFinal{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.precioAntes{
+    font-size: 12px;
+}
+
+.ahorra{
+    font-size: 12px;
+    font-weight: 600;
+    color: #CC6D19;
+}
+
+/*-----------------------------agregar--------------------------------*/
+.cajaAgregar{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.botonAgregar{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.cantidadContenedor{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.numeroInfo{
+    font-size: 13px;
+}
+
+.noPaquetes {
+    height: 28px;
+    width: 70px;
+    border: 1px solid #0D2555;
+    text-align: center;
+    border-radius: 0; 
+    outline: none; 
+}
+
+.noPaquetes:focus {
+    border-radius: 0; 
+    border: 2px solid #0D2555;
+    outline: none; 
+}
+
+.botonMas{
+    height: 28px;
+    width: 28px;
+    background-color: #0D2555;
+    color: #f3f3f3;
+    border: none;
+}
+
+.botonMas:hover{
+    cursor: pointer;
+    background-color: #193675;
+}
+
+.botonMenos{
+    height: 28px;
+    width: 28px;
+    background-color: #ffffff;
+    border: 1px solid #0D2555;
+}
+
+.botonMenos:hover{
+    cursor: pointer;
+    background-color: #f3f3f3;
+}
+
+.agregar{
+    height: 28px;
+    width: 110px;
+    background-color: #ffffff;
+    border: 1px solid #0D2555;
+    border-radius: 4px;
+}
+
+.agregar:hover{
+    cursor: pointer;
+    background-color: #0D2555;
+    color: #f3f3f3;
+}
+
+/*----------------bolitas-----------*/
+
+#bolitas{
+    display: flex;
+}
+
+#posicionTarjeta{
+    width: 100%;
+    margin: 3vh 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.posicionFlechasOferta{
+    padding: 4px;
+
+    display: flex;
+    align-items: center;
+}
+
+.posicionFlechasOferta:hover{
+    background-color: #cfcece;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.flechasOferta{
+    width: 25px;
+}
+
+.bolitaTarjeta{
+    width: 15px;
+    height: 15px;
+    border-radius: 8px;
+    background-color: #0D2555;
+
+    margin: 0 8px;
+}
+
+
+/*-------------------------categorias*---------------------------------*/
+#cuadrosContenedores{
+    width: 100%;
+    margin-bottom: 10vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+#tituloCategoria{
+    font-size: 1.5em;
+    margin: 5vh 0;
+}
+
+#parteIzquierdaCategoria{
+    width: 34%;
+
+    background-color: #ffffff;
+}
+
+.categoriaParteIzquierda{
+    display: flex;
+    justify-content: space-between;
+
+    margin: 36px;
+    padding: 36px;
+    height: 240px;
+    border: 2px solid #CC6D19;
+    
+}
+
+.categoriaParteIzquierda:hover{
+    background-color: #f3f3f3;
+    border-color: #193675;
+    cursor: pointer;
+}
+
+.imagenesCategorias{
+    width: 50%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.textoCategorias{
+    width: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.textoCategorias h3{
+    margin-bottom: 18px;
+}
+
+.textoCategorias p{
+    font-size: 1.1rem;
+}
+
+#parteDerechaCategoria{
+    width: 60%;
+
+    background-color: #ffffff;
+}
+
+#margenCategoria{
+    padding: 36px;
+}
+
+.bloquesCategorias{
+    width: 100%;
+    height: 240px;
+
+    display: flex;
+    justify-content: space-around;
+}
+
+.bloqueArribaCategoria{
+    margin-bottom: 36px;
+}
+
+.tamImgCat{
+    width: 170px;
+}
+
+#imagenManual img{
+    width: 140px;
+}
+
+.categoriaParteDerecha{
+    width: 260px;
+    border: 2px solid #CC6D19;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.categoriaParteDerecha:hover{
+    background-color: #f3f3f3;
+    border-color: #193675;
+    cursor: pointer;
+}
+
+.tamImgCatDer{
+    width: 140px;
+}
+
+.textoCategoriasDer{
+    margin-top: 20px;
+    font-size: 1.1rem;
+}
+
+/*----------------------footer-----------------------------*/
+
+footer{
+    width: 100%;
+    height: 260px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    
+}
+
+#margenfooter{
+    width: 88%;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+#InfoFooter{
+    width: 100%;
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#contacto{
+    display: flex;
+    flex-direction: column;
+}
+
+#formasDeContacto{
+    display: flex;
+    margin: 20px 0;
+}
+
+.cuadritoContacto{
+    display: flex;
+    align-items: center;
+    margin-right:20px;
+}
+
+.iconoContacto{
+    width: 24px;
+    margin-right: 12px;
+}
+
+.iconosFooter{
+    width: 100%;
+}
+
+#redesSociales{
+    display: flex;
+    align-items: center;
+}
+
+footer hr{
+    margin: 12px 0;
+}
+
+.espacioVacio{
+    height: 24px;
+}
+
+#redesSociales p{
+    margin-right: 24px;
+}

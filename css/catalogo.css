@@ -1,0 +1,110 @@
+#cuerpoCatalogo{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#margenCatalogo{
+    width: 88%;
+    display: flex;
+
+    
+}
+
+#controlesProductos{
+    width: 20%;
+    height: 94vh;
+    margin: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.opciones{
+    display: flex;
+    flex-direction: column;
+}
+
+.opciones{
+    margin-top: 2vh;
+}
+
+.opcion{
+    margin-top: 10px;
+}
+
+label{
+    font-size: 1rem;
+}
+
+#marca{
+    height: 19vh;
+    overflow: hidden;
+}
+
+#espacioEnBlanco{
+    height: 10vh;
+}
+
+#mostrarMas p{
+    color: #0D2555;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+#mostrarMas p:hover{
+    color: #2455b8;
+    cursor: pointer;
+}
+
+#mostrarMas p:active{
+    color: #5681d8;
+    cursor: pointer;
+}
+
+#catalogoConBotonesSigAnt{
+    width: 100%;
+    margin: 10px;
+}
+
+.filaProductos{
+    display: flex;
+    margin: 10px;
+}
+
+#botonesSigAnt{
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*--------------GRID DE LOS PRODUCTOS----------*/
+#catalogoProductos{
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.tarjetaCatalogo{
+    margin: 0;
+}
+
+.promocion{
+    display: none;
+}
+
+.precioTotal{
+    height: 66px;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+.precioFinalSinPromocion{
+    font-size: 18px;
+    font-weight: 700;
+}

@@ -1,0 +1,101 @@
+#ventanaBorrarEmergente{
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100vw;
+    height: 100vh;
+    position:absolute;
+    top: 0%;
+    height: 100%;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#anuncioBorrar{
+    width: 600px;
+    height: 300px;
+    padding: 16px;
+    background-color: #ffffff;
+}
+
+#quitarAnuncioBorrar{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+#cancelarBorrar{
+    width: 20px;
+}
+
+#mentajeBorrar{
+    width: 100%;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 14px 0;
+
+}
+
+#infoProductoBorrar{
+    width: 100%;
+    font-size: 1.1rem;
+    display: flex;
+}
+
+#imgContenedorBorrar{
+    margin-right: 20px;
+}
+
+#infoBorrar p{
+    margin-bottom: 4px;
+}
+
+#previewBorrar{
+    width: 100px;
+}
+
+#marcaBorrar{
+    font-weight: 700;
+}
+
+#estatusProductoBorrar{
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+}
+
+#bolitaStatus{
+    margin-left: 6px;
+    width: 1rem;
+    height: 1rem;
+    border-radius: .5rem;
+    background-color: #d85858;
+}
+
+#opciones{
+    width: 100%;
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#opciones button{
+    padding: 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+
+#botonCancelarBorrar{
+    background-color: #0D2555;
+    color: #f3f3f3;
+    border: 1px solid transparent;
+    width: 48%;
+    
+}
+
+#botonAceptarBorrar{
+    border: 1px solid #0D2555;
+    background-color: #ffffff;
+    padding: 8px;
+    width: 48%;
+}

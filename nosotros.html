@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixTool</title>
+    <link rel="icon" href="./recursos/favicon.png" type="image/png">
+
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/sobreNosotros.css">
+    <link rel="stylesheet" href="./css/carrito.css">
+    <link rel="stylesheet" href="./css/mensajesEmergentes/registro.css">
+    <link rel="stylesheet" href="./css/mensajesEmergentes/iniciosesion.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        
+    </header>
+    <div id="cuerpoNosotros">
+        <div id="margenNosotros">
+            <div id="sobreNosotros">
+                <div id="ImgNosotros">
+                    <img src="" alt="empleados" id="imgSobreNosotros">
+                </div>
+                <div id="textoNosotros">
+                    <h1>Sobre nosotros</h1>
+                    <p id="primerTextoSobreNosotros"></p>
+                    <p id="segundoTextoSobreNosotros"></p>
+                </div>
+            </div>
+            <div id="misionYVision">
+                <div id="mision" class="cuadrosMisionVision">
+                    <h2>Misión</h2>
+                    <p id="primerTextoMision"></p>
+                    <p id="segundoTextoMision"></p>
+                </div>
+                <div id="vision" class="cuadrosMisionVision">
+                    <h2>Visión</h2>
+                    <p id="primerTextoVision"></p>
+                    <p id="segundoTextoVision"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer></footer>
+    <!--Profesor, si lee esto, estos divs que estan abajo son ventanas emergentes, se hizo así para evitar escribir tanto código en 
+    el HTML de todos los HTML y si tengo que modificar algo solo lo hago desde los códigos en la carpeta de componentes-->
+    <!--carrito-->
+    <div id="ventanaOscuraCarrito">
+        
+    </div>
+
+    <!--anuncio para registrarse-->
+    <div id="ventanaOscuraRegistro">
+        
+    </div>
+
+    <!--anuncio para iniciar sesión-->
+    <div id="ventanaOscuraInicioSesion">
+        
+    </div>
+</body>
+<!--Componentes que se repiten en el document-->
+<script src="./js/componentes/header.js"></script>
+<script src="./js/componentes/footer.js"></script>
+<script src="./js/componentes/carrito.js"></script>
+<script src="./js/componentes/ventanasesion.js"></script>
+<script src="./js/componentes/ventanaregistro.js"></script>
+
+<script src="./js/sobrenosotros.js"></script>
+
+</html>

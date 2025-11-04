@@ -1,0 +1,39 @@
+{
+    "usuarios": [
+        {
+            "rol": "admin",
+            "email": "al217857@alumnos.uacj.mx",
+            "contrasenia": "MIGUELuwu",
+            "nombre": "Miguel",
+            "apellido": "Trujillo",
+            "carritoDeCompras": [
+                {
+                    "sku": "HR-011",
+                    "cantidad": 2
+                },
+                {
+                    "sku": "HR-012",
+                    "cantidad": 1
+                }
+            ]
+
+        },
+        {
+            "rol": "admin",
+            "email": "al217870@alumnos.uacj.mx",
+            "contrasenia": "RENEuwu",
+            "nombre": "Rene",
+            "apellido": "Velasco",
+            "carritoDeCompras": [
+                {
+                    "sku": "HR-011",
+                    "cantidad": 2
+                },
+                {
+                    "sku": "HR-012",
+                    "cantidad": 3
+                }
+            ]
+        }
+    ]
+}

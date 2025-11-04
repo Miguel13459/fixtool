@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixTool</title>
+
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/carrito.css">
+    <link rel="stylesheet" href="./css/mensajesEmergentes/registro.css">
+    <link rel="stylesheet" href="./css/mensajesEmergentes/iniciosesion.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        
+    </header>
+    <div id="cuerpo">
+        <div id="portadaPromociones">
+            <div id="contenedorPortada">
+                <div id="botonIzquierdaPortada" class="botonIzqDer" onclick="ImagenAnterior()">
+                    <img src="./recursos/iconos/flechaIzquierda.svg" alt="izq" id="izq" >
+                </div>
+                <div id="ContenedorImagenesPortada">
+                    <img src="" alt="portada" class="portada">
+                </div>
+                <div id="botonDerechaPortada" class="botonIzqDer" onclick="ImagenSiguiente()">
+                    <img src="./recursos/iconos/flechaDerecha.svg" alt="der" id="der" >
+                </div>
+            </div>
+            <div id="posicionPortada">
+                <div class="bolitaPortada"></div>
+            </div>
+        </div>
+        <div id="parteCentralPagina">
+            <div id="seccionOfertas">
+                <div id="tituloOfertas">
+                    <h2>Las mejores ofertas</h2>
+                </div>
+                <div id="carrusel">
+                    <div id="contenedorOferta">
+                        <div class="tarjetaOferta">
+                            <div class="margen">
+                                <div class="sku"><p>SKU: 123456</p></div>
+                                <div class="imagenContenedor">
+                                    <img src="./recursos/img/bosh-rotomartillo.jpg" alt="imagen_producto" class="imgProducto">
+                                </div>
+                                <div class="informacion">
+                                    <div class="parteIzquierda">
+                                        <div class="marca"><h3>BOSH</h3></div>
+                                        <div class="titulo"><p>Rotomartillo 1/2 pulgada</p></div>
+                                    </div>
+                                    <div class="parteDerecha">
+                                        <div class="promocion">
+                                            <div class="iconoPromocionContenedor">
+                                                <img src="./recursos/iconos/oferta.svg" alt="oferta" class="ofertaIcono">
+                                            </div>
+                                            <div class="infoPromocion">
+                                                <div class="precioFinal"><p>$4599.00</p></div>
+                                                <div class="precioAntes"><p>Antes: $5699.00</p></div>
+                                                <div class="ahorra"><p>Ahorras: $1100.00</p></div>
+                                            </div>
+                                        </div>
+                                        <p class="porUnidad">Precio por unidad $1149.75</p>
+                                        <p class="cantidadPorPaquete">Paquete de 4pz</p>
+                                    </div>
+                                </div>
+                                <div class="cantidadAgregar">
+                                    <div class="numeroInfo">
+                                        <label for="noPaquetes">No.Paquetes</label>
+                                    </div>
+                                    <div class="cajaAgregar">
+                                        <div class="cantidadContenedor">
+                                            <input type="text" name="noPaquetes" class="noPaquetes">
+                                            <button class="botonMas">+</button>
+                                            <button class="botonMenos">-</button>
+                                        </div>
+                                        <div class="botonAgregar">
+                                            <button class="agregar">Agregar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="posicionTarjeta">
+                    <div id="anteriorBoton" class="posicionFlechasOferta" onclick="AnterioresTarjetas()">
+                        <img src="./recursos/iconos/flechaIzquierda.svg" alt="izq" class="flechasOferta">
+                        <p>Anterior</p>
+                    </div>
+                    <div id="bolitas">
+                        <div class="bolitaTarjeta"></div>
+                    </div>
+                    <div id="siguienteBoton" class="posicionFlechasOferta" onclick="SiguientesTarjetas()">
+                        <p>Siguiente</p>
+                        <img src="./recursos/iconos/flechaDerecha.svg" alt="der" class="flechasOferta">
+                    </div>
+                </div>
+            </div>
+            <div id="SeccionCategorias">
+                <div id="tituloCategoria">
+                    <h2>Categorias</h2>
+                </div>
+                <div id="cuadrosContenedores">
+                    <div id="parteIzquierdaCategoria">
+                        <div id="herramientaElectrica" class="categoriaParteIzquierda">
+                            <div id="imagenElectrica" class="imagenesCategorias ">
+                                <img src="./recursos/categorias/carpentry-drill-drilling-svgrepo-com.svg" alt="drill" class="tamImgCat">
+                            </div>
+                            <div class="textoCategorias">
+                                <h3>Herramientas eléctricas</h3>
+                                <p>Toda clase de herramienta eléctrica que te facilita el trabajo</p>
+                            </div>
+                        </div>
+                        <div id="herramientaManual" class="categoriaParteIzquierda">
+                            <div id="imagenManual" class="imagenesCategorias ">
+                                <img src="./recursos/categorias/tool-equipment-svgrepo-com.svg" alt="manual" class="tamImgCat">
+                            </div>
+                            <div class="textoCategorias">
+                                <h3>Herramientas manuales</h3>
+                                <p>Toda clase de herramienta manual que te facilita el trabajo</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="parteDerechaCategoria">
+                        <div id="margenCategoria">
+                            <div class="bloqueArribaCategoria bloquesCategorias">
+                                <div id="estacionarias" class="categoriaParteDerecha">
+                                    <div id="imagenMesa" class="imagenesCategoriasDer">
+                                        <img src="./recursos/categorias/table-outline-with-circular-object-svgrepo-com.svg" alt="table" class="tamImgCatDer">
+                                    </div>
+                                    <div class="textoCategoriasDer">
+                                        <p>Herramientas de mesa</p>
+                                    </div>
+                                </div>
+                                <div id="contenedores" class="categoriaParteDerecha">
+                                    <div id="imagenCaja" class="imagenesCategoriasDer">
+                                        <img src="./recursos/categorias/repair-box-outline-svgrepo-com.svg" alt="box" class="tamImgCatDer">
+                                    </div>
+                                    <div class="textoCategoriasDer">
+                                        <p>Contenedores</p>
+                                    </div>
+                                </div>
+                                <div id="compresores" class="categoriaParteDerecha">
+                                    <div id="imagenCompresores" class="imagenesCategoriasDer">
+                                        <img src="./recursos/categorias/air-compressor-svgrepo-com.svg" alt="compressor" class="tamImgCatDer">
+                                    </div>
+                                    <div class="textoCategoriasDer">
+                                        <p>Compresores</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bloqueCategoriaAbajo bloquesCategorias">
+                                <div id="sujecion" class="categoriaParteDerecha">
+                                    <div id="imagenSujecion" class="imagenesCategoriasDer">
+                                        <img src="./recursos/categorias/rope-svgrepo-com.svg" alt="rope" class="tamImgCatDer">
+                                    </div>
+                                    <div class="textoCategoriasDer">
+                                        <p>Sujeción</p>
+                                    </div>
+                                </div>
+                                <div id="bisacha" class="categoriaParteDerecha">
+                                    <div id="imagenBisagras" class="imagenesCategoriasDer">
+                                        <img src="./recursos/categorias/door-handle-svgrepo-com.svg" alt="doorhandle" class="tamImgCatDer">
+                                    </div>
+                                    <div class="textoCategoriasDer">
+                                        <p>Chapas y bisagras</p>
+                                    </div>
+                                </div>
+                                <div id="tornilleria" class="categoriaParteDerecha">
+                                    <div id="imagenTornilleria" class="imagenesCategoriasDer">
+                                        <img src="./recursos/categorias/zipper-outline-svgrepo-com.svg" alt="zipper" class="tamImgCatDer">
+                                    </div>
+                                    <div class="textoCategoriasDer">
+                                        <p>Tornillería</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        
+    </footer>
+    <!--Profesor, si lee esto, estos divs que estan abajo son ventanas emergentes, se hizo así para evitar escribir tanto código en 
+    el HTML de todos los HTML y si tengo que modificar algo solo lo hago desde los códigos en la carpeta de componentes-->
+    <!--carrito-->
+    <div id="ventanaOscuraCarrito">
+        
+    </div>
+
+    <!--anuncio para registrarse-->
+    <div id="ventanaOscuraRegistro">
+        
+    </div>
+
+    <!--anuncio para iniciar sesión-->
+    <div id="ventanaOscuraInicioSesion">
+        
+    </div>
+</body>
+<!--Componentes que se repiten en el document-->
+<script src="./js/componentes/header.js"></script>
+<script src="./js/componentes/footer.js"></script>
+<script src="./js/componentes/carrito.js"></script>
+<script src="./js/componentes/ventanasesion.js"></script>
+<script src="./js/componentes/ventanaregistro.js"></script>
+
+<script src="./js/conexionInicio.js"></script>
+<script src="./js/cambiarimgportada.js"></script>
+</html>

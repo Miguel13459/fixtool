@@ -1,0 +1,61 @@
+#ventanaOscuraInicioSesion{
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100vw;
+    height: 100vh;
+    position:absolute;
+    top: 0%;
+    height: 100%;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#anuncioInicioSesion{
+    width: 700px;
+    padding: 48px;
+    background-color: #ffffff;
+}
+
+#contenedorLogin{
+    width: 100%;
+}
+
+#IniciarSesionBotonCaja button{
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #0D2555;
+    color: #f3f3f3;
+    border: 1px solid transparent;
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+#IniciarSesionBotonCaja button:hover{
+    cursor: pointer;
+    background-color: #193675;
+}
+
+#IniciarSesionBotonCaja button:active{
+    background-color: #1a47a8;
+}
+
+#crearCuentaBoton button{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #0D2555;
+    background-color: #ffffff;
+    padding: 8px;
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+#crearCuentaBoton button:hover{
+    cursor: pointer;
+    background-color: #f0eae4;
+    border-color: #CC6D19;
+}
+
+#crearCuentaBoton button:active{
+    background-color: #e2ded9;
+}

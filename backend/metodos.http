@@ -1,0 +1,9 @@
+GET http://localhost:3000/imagenesportada
+
+###
+
+PUT http://localhost:3000/cambiarimagen
+
+{
+    "cambiarPortada" : 1
+}
