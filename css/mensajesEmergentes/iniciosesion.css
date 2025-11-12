@@ -59,3 +59,65 @@
 #crearCuentaBoton button:active{
     background-color: #e2ded9;
 }
+
+/*Sesion iniciada*/
+#sesionNombreFoto{
+    display: none;
+    justify-content: end;
+    align-items: center;
+
+    width: 240px;
+    margin: 0 14px;
+}
+
+#imgPerfil{
+    width: 36px;
+    border-radius: 20px;
+    margin-left:12px;
+    margin-right: 24px;
+    padding: 3px;
+}
+
+#imgPerfil:hover{
+    background-color: #c9c9c9;
+}
+
+#imgPerfil:active{
+    background-color: #ababab;
+}
+
+/* menu desplegable perfil*/
+#menuPerfil {
+    position: absolute;
+    top: 60px; /*para pocisionarlo abajo del menu*/
+    right: 40px;
+    width: 160px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 10;
+    transition: all 0.2s ease;
+}
+
+.opcionMenu {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.opcionMenu:hover {
+    background-color: #f3f3f3;
+}
+
+#modoVendedor {
+    accent-color: #0D2555;
+    cursor: pointer;
+}

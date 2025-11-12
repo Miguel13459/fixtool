@@ -13,6 +13,16 @@ header.innerHTML = `<div id="barraArriba">
                         <button id="inicioSesion" class="botonesRegistro" onclick="IniciarSesion()">Iniciar Sesión</button>
                         <button id="registrar" class="botonesRegistro" onclick="Registrarse()">Registrarse</button>
                     </div>
+                    <div id="sesionNombreFoto">
+                        <p>Bienvenido [Nombre]</p>
+                        <img src="./recursos/img/view-preview-svgrepo-com.svg" alt="perfil" id="imgPerfil">
+                        <div id="menuPerfil">
+                            <label class="opcionMenu">
+                                <input type="checkbox" id="modoVendedor"> Modo vendedor
+                            </label>
+                            <div class="opcionMenu" id="cerrarSesion">Cerrar sesión</div>
+                        </div>
+                    </div>
                 </div>
                 <div id="carritoContenedor">
                     <img src="./recursos/iconos/carrito.svg" alt="carrito de compra" class="icono" onclick="AparecerCarrito()">

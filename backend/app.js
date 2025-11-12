@@ -79,7 +79,7 @@ const server = http.createServer((request, response) => {
     switch(request.method){
         case "GET":
 
-            /*promociones inicio */
+            /* -------------- promociones inicio ------------------------------------------------------------------ */
             if(request.url == "/herramientas_inicio"){
                 conexion_db.query("SELECT idHerramienta FROM `herramientas` WHERE estaDescuento = 1", (err, resultado) => {
                     if(err){
@@ -193,7 +193,7 @@ const server = http.createServer((request, response) => {
                 return 0
             }
 
-            /*portada */
+            /*------------------- portada ----------------------------------------------------------------------------------*/
             if(request.url == "/imagenportada"){
                 let tipo = arregloNombreImagenes[posicionPortada].split(".")[1]
                 response.statusCode = 200
@@ -212,7 +212,7 @@ const server = http.createServer((request, response) => {
                 return 0;
             }
 
-            /*catalogo */
+            /*-------- catalogo ----------------------------------------------------------------------------------------------------*/
             if(request.url == "/herramientas_catalogo"){
                 conexion_db.query("SELECT idHerramienta FROM `herramientas` LIMIT 16", (err, resultado) => {
                     if(err){
@@ -283,8 +283,10 @@ const server = http.createServer((request, response) => {
                     let consultaObjeto = null //variable para guardar el objeto que se va a consutlar
 
                     for (j = 0; j < objeto_consultas.consultas.length; j++) { //recorremos el arreglo de las consultas
+                        //console.log("entra al for")
                         const objetoActual = objeto_consultas.consultas[j] //guardamo el bjeto actual de objeto consultas en el indice j
                         if (objetoActual[arregloConceptos[i]]) { //verificamos que esté y guardamos el objeto
+                            //console.log("entra al if")
                             consultaObjeto = objetoActual
                             break;
                         }
@@ -321,6 +323,7 @@ const server = http.createServer((request, response) => {
 
                             let arregloId = []
                             for(i = 0; i < resultado.length; i++){
+                                //console.log("entra al for")
                                 arregloId[i] = resultado[i].idHerramienta
                                 //console.log(arregloId[i])
 
@@ -344,7 +347,7 @@ const server = http.createServer((request, response) => {
                 return 0
             }
 
-            /*sobre nosotros*/
+            /*----------sobre nosotros-------------------------------------------------------------------------------------------------*/
             if(request.url == "/nosotros"){
                 response.statusCode = 200
                 response.setHeader("Content-Type", "image/jpg")
@@ -357,6 +360,67 @@ const server = http.createServer((request, response) => {
                 response.setHeader("Content-Type", "application/json")
                 response.end(JSON.stringify(objetoNosotros))
                 return 0;
+            }
+
+            /*------USUARIOS---------------------------------------------------------------------------------------------------------- */
+
+            if(request.url == "/obtener_usuario"){
+                if (!authHeader || authHeader == "" || authHeader == null || authHeader == undefined) {
+                    response.statusCode = 401;
+                    response.setHeader('Content-Type', 'application/json');
+                    response.end(JSON.stringify({
+                        "mensaje": "token no proporcionado"
+                    }));
+                    return 0
+                }
+
+                try{
+                    const decoded = jwt.verify(authHeader, llave) //esta linea hacia que me crasheara el código, así que lo meti a un try catch MUAJAJA
+                    
+                    conexion_db.query("SELECT idUsuario, nombre, rol FROM `usuarios` WHERE email = ?", [decoded.username], (err, resultado) => {
+                        if (err) {
+                            console.log(err);
+                            return 0
+                        }
+                        
+                        fs.readFile("./backend/img/user.png", (err, file) => {
+                            if(err){
+                                console.log(err)
+                                return 0
+                            }
+                            else{
+                                response.statusCode = 200;
+                                response.setHeader('Content-Type', 'application/json');
+                                response.end(JSON.stringify({
+                                    "idUsuario": resultado[0].idUsuario,
+                                    "imagenPerfil": file,
+                                    "nombre": resultado[0].nombre
+                                }));
+                            }
+                        })
+
+                        //conexion_db.end();
+                    })
+                }
+                catch (err){
+                    console.log("Error al verificar la autenticidad", err.message)
+
+                    let mensaje
+                    if(err.name == "TokenExpiredError"){
+                        mensaje = "Token expirado, por favor inicie sesión nuevamente"
+                    }
+                    else{
+                        mensaje = "Token inválido"
+                    }
+
+                    response.statusCode = 401;
+                    response.setHeader('Content-Type', 'application/json');
+                    response.end(JSON.stringify({
+                        "mensaje": mensaje
+                    }));
+                    return 0
+                }
+                return 0
             }
 
             response.statusCode = 404
@@ -399,9 +463,9 @@ const server = http.createServer((request, response) => {
 
                         //console.log(resultado)
 
-                        const token = jwt.sign({username: resultado[0].email}, llave, {expiresIn: "30s"})
+                        const token = jwt.sign({username: resultado[0].email}, llave, {expiresIn: "10m"})
                         
-                        console.log(token)
+                        //console.log(token)
 
                         response.statusCode = 200;
                         response.setHeader('Content-Type', 'application/json');
@@ -454,7 +518,7 @@ const server = http.createServer((request, response) => {
                         conexion_db.query("INSERT INTO `usuarios`( `email`, `contrasenia`, `nombre`, `apellido`, `rol`)  VALUES (?,?,?,?,?)", [registro.correo, registro.contrasena, registro.nombre, registro.apellido, "vendedor"], (err, resultado) => {
                             if(err){
                                 console.log(err)
-                                conexion_db.end()
+                                //conexion_db.end()
                                 return 0
                             }
 
@@ -464,7 +528,7 @@ const server = http.createServer((request, response) => {
                             response.statusCode = 200;
                             response.setHeader('Content-Type', 'application/json');
                             response.end(JSON.stringify(objeto_mensaje));
-                            conexion_db.end()
+                            //conexion_db.end()
                             return 0
                         })
                     })

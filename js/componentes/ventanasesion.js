@@ -64,6 +64,90 @@ function RedirigirRegistro(){
     Registrarse()
 }
 
+ObtenerUsuario()
+
+const botonesLogin = document.querySelector("#botonesLogin")
+const sesionNombreFoto = document.querySelector("#sesionNombreFoto")
+const textoSaludo = document.querySelector("#sesionNombreFoto p")
+const imagenPerfil = document.querySelector("#imgPerfil")
+
 function ObtenerUsuario(){
-    
+    fetch("http://localhost:3000/obtener_usuario", {
+        method: "GET",
+        headers: {
+            "Authorization" : sessionStorage.getItem("token_sesion")
+        }
+    }).then(recurso => {
+        if(recurso.status == 200){
+            recurso.json().then(respuesta => {
+
+                botonesLogin.style.display = "none"
+                sesionNombreFoto.style.display = "flex"
+
+                textoSaludo.innerHTML = "Bienvenido " + respuesta.nombre
+                
+                console.log(respuesta.imagenPerfil)
+                const arregloBytes = new Uint8Array(respuesta.imagenPerfil.data)
+                const blob = new Blob([arregloBytes])
+                let imagen64 = URL.createObjectURL(blob)
+                imagenPerfil.src = imagen64
+                QuitarVentanaSesion()
+            })
+        }else{
+            recurso.json().then(respuesta => {
+                console.log("usuario no registrado", respuesta.mensaje)
+            })
+        }
+    })
 }
+
+/*
+este codigo se encuentra en el header.js
+<div id="menuPerfil">
+    <label class="opcionMenu">
+        <input type="checkbox" id="modoVendedor"> Modo vendedor
+    </label>
+    <div class="opcionMenu" id="cerrarSesion">Cerrar sesión</div>
+</div> */
+const menuPerfil = document.querySelector("#menuPerfil");
+const cerrarSesion = document.querySelector("#cerrarSesion");
+const modoVendedor = document.querySelector("#modoVendedor");
+
+let estaDesplegado = false
+imagenPerfil.addEventListener("click", (evento) => {
+    //console.log(evento)
+    
+    evento.stopPropagation(); 
+    if(estaDesplegado){
+        menuPerfil.style.display = "none"
+        estaDesplegado = false
+    }else{
+        menuPerfil.style.display = "flex"
+        estaDesplegado = true
+    }
+});
+
+document.addEventListener("click", () => {
+    menuPerfil.style.display = "none"
+});
+
+cerrarSesion.addEventListener("click", () => {
+    sessionStorage.removeItem("token_sesion");
+    alert("Sesión cerrada correctamente.");
+    window.location.reload();
+});
+
+modoVendedor.addEventListener("change", () => {
+    if (modoVendedor.checked) {
+        alert("Modo vendedor activado");
+        sessionStorage.setItem("rol_usuario", "true");
+    } else {
+        alert("Modo vendedor desactivado");
+        sessionStorage.setItem("rol_usuario", "false");
+    }
+});
+
+/*window.addEventListener("DOMContentLoaded", () => {
+    const estado = sessionStorage.getItem("rol_usuario");
+    if (estado == "true") modoVendedor.checked = true;
+});*/
