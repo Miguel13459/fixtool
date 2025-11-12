@@ -17,14 +17,53 @@ ventanaOscuraInicioSesion.innerHTML = `<div id="anuncioInicioSesion">
                     </div>
                 </div>
                 <div id="IniciarSesionBotonCaja" class="elementosLogin">
-                    <button>Iniciar sesión</button>
+                    <button onclick="ConfirmarSesion()">Iniciar sesión</button>
                 </div>
                 <div id="mensajeDirigirCrearCuenta" class="elementosLogin">
                     <p>¿Aún no tienes una cuenta?</p>
                 </div>
                 <div id="crearCuentaBoton" class="elementosLogin">
-                    <button>Crear cuenta</button>
+                    <button onclick="RedirigirRegistro()">Crear cuenta</button>
                 </div>
             </div>
         </div>`
 
+
+
+function ConfirmarSesion(){
+    const correoSesion = document.querySelector("#correoSesion")
+    const contrasenaSesion = document.querySelector("#contrasenaSesion")
+    //const IniciarSesionBotonCaja = document.querySelector("#IniciarSesionBotonCaja")
+
+    console.log(correoSesion.value)
+    console.log(contrasenaSesion.value)
+
+    fetch("http://localhost:3000/iniciar_sesion", {
+        "method": "POST",
+        "body": JSON.stringify({
+            "email": correoSesion.value,
+            "contrasena": contrasenaSesion.value
+        })
+    }).then(recurso => {
+        if(recurso.status == 200){
+            recurso.json().then(respuesta => {
+                //console.log(respuesta)
+                sessionStorage.setItem("token_sesion", respuesta.token)
+                ObtenerUsuario()
+            })
+        }else{
+            recurso.json().then(respuesta => {
+                alert(respuesta.mensaje)
+            })
+        }
+    })
+}
+
+function RedirigirRegistro(){
+    QuitarVentanaSesion()
+    Registrarse()
+}
+
+function ObtenerUsuario(){
+    
+}

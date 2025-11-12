@@ -231,22 +231,6 @@ function Redirigir(categoria){
     window.location.href = "catalogo.html"
 }
 
-function actualizarTotal() {
-    let total = 0;
-    const productos = contenedorMercanciaCarrito.querySelectorAll(".tarjetaCarrito");
-    const totalApagar = document.querySelector("#totalApagar")
-    
-    /*empieza en 1 por que agarra la tarjeta original */
-    for(i = 1; i < productos.length; i++){
-        const cantidad = productos[i].querySelector(".noPaquetesCarrito").value
-        const precioUnitario = productos[i].querySelector(".precioFinal").textContent.replace("$", "")
-        total += parseInt(cantidad) * parseFloat(precioUnitario)
-    }
-
-    totalApagar.innerHTML = "Total a pagar: $" + total.toFixed(2);
-    totalGlobal = total;
-}
-
 function ActualizarCarrito(){
     contenedorMercanciaCarrito.innerHTML = ""
     console.log(carritoUsuarioVisitante)
@@ -320,5 +304,21 @@ function ActualizarCarrito(){
             })
         })
     }
-    localStorage.setItem("carrito_publico", carritoUsuarioVisitante)
+    localStorage.setItem("carrito_publico", JSON.stringify(carritoUsuarioVisitante))
+}
+
+function actualizarTotal() {
+    let total = 0;
+    const productos = contenedorMercanciaCarrito.querySelectorAll(".tarjetaCarrito");
+    const totalApagar = document.querySelector("#totalApagar")
+    
+    /*empieza en 1 por que agarra la tarjeta original */
+    for(i = 1; i < productos.length; i++){
+        const cantidad = productos[i].querySelector(".noPaquetesCarrito").value
+        const precioUnitario = productos[i].querySelector(".precioFinal").textContent.replace("$", "")
+        total += parseInt(cantidad) * parseFloat(precioUnitario)
+    }
+
+    totalApagar.innerHTML = "Total a pagar: $" + total.toFixed(2);
+    totalGlobal = total;
 }

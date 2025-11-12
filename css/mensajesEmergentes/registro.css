@@ -71,7 +71,7 @@
     flex-direction: column;
 }
 
-input[type="text"]{
+input[type="text"], input[type="password"]{
     margin: 8px 0;
     padding: 10px;
     font-size: 1rem;

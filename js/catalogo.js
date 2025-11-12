@@ -1,61 +1,136 @@
-const precioAlto = document.querySelector("#precioAlto")
-const precioBajo = document.querySelector("#precioBajo")
-const promociones = document.querySelector("#promociones")
+/*Para seleccionar los checkbox, a todos los input yo les puse una caja que venia con
+la clase opcion, de ahí agarre todos los input con queryselectorAll e hice un ciclo donde
+estuviera recorriendo cada uno, pero yo queria obtener su nombre o id donde venía el tipo o concepto, Para eso me apoyé de el evento
+del addEventListener y me di cuenta que en el el target venía el nombre de la etiqueta, jsuto lo que
+ocupo para mandar a la función ActualizarCatalogo()*/
+const todosLosCheck = document.querySelectorAll(".opcion input")
+let concepto = []
+let consulta = ""
 
-const herManual = document.querySelector("#herManual")
-const herElectrica = document.querySelector("#herElectrica")
-const herEstacionaria = document.querySelector("#herEstacionaria")
-const contenedores = document.querySelector("#contenedores")
-const compresores = document.querySelector("#compresores")
-const sujecion = document.querySelector("#sujecion")
-const bisagras = document.querySelector("#bisagras")
-const manijas = document.querySelector("#manijas")
-const tornilleria = document.querySelector("#tornilleria")
-const soldadura = document.querySelector("#soldadura")
+for(i = 0; i < todosLosCheck.length; i++){
+    todosLosCheck[i].addEventListener("change", (evento) => {
+        const checkbox = evento.target
+        const nombre = evento.target.name
 
-const dewalt = document.querySelector("#dewalt")
-const milwaukee = document.querySelector("#milwaukee")
-const bocsh = document.querySelector("#bocsh")
-const makita = document.querySelector("#makita")
-const stanley = document.querySelector("#stanley")
-const ryobi = document.querySelector("#ryobi")
-const infra = document.querySelector("#infra")
-const truper = document.querySelector("#truper")
-const generica = document.querySelector("#generica")
+        if (checkbox.checked) {
+            if (!concepto.includes(nombre)) { //este método busca si incluye un objeto en el arreglo con la misma caracteristica
+                concepto.push(nombre) //en este caso le estoy diciendo, si NO incluye el nombre del checkbox, entonces metelo a concepto
+            }
+        } else {
+            let nuevoConcepto = []
+            for (let i = 0; i < concepto.length; i++) {
+                if (concepto[i] !== nombre) {
+                    nuevoConcepto.push(concepto[i])
+                }
+            }
+            concepto = nuevoConcepto
+        }
 
-let totalGlobal = 0
+        consulta = concepto.join("_") //este metodo pone un _ entre cada palabra, haciendo un string por_ejemplo_así
+        let seleccion 
+        if(consulta.length > 0) seleccion = consulta 
+        else seleccion = ""
+        
+        ActualizarCatalogo(seleccion);
+    });
+}
+
+ActualizarCatalogo("")
+
+let totalGlobal = 0;
+let carritoCatalogo = JSON.parse(localStorage.getItem("carrito_publico"));
+console.log(carritoCatalogo)
 
 switch(localStorage.getItem("categoria")){
-    case "herramientaElectrica":
-        herElectrica.checked = true;
-        break;
     case "herramientaManual":
-        herManual.checked = true;
+        herManual.checked = true
+        ActualizarCatalogo()
+        break;
+    case "herramientaElectrica":
+        herElectrica.checked = true
+        ActualizarCatalogo()
         break;
     case "estacionarias":
-        herEstacionaria.checked = true;
+        herEstacionaria.checked = true
+        ActualizarCatalogo("")
         break;
     case "contenedores":
-        contenedores.checked = true;
+        contenedores.checked = true
+        ActualizarCatalogo()
         break;
     case "compresores":
-        compresores.checked = true;
+        compresores.checked = true
+        ActualizarCatalogo()
         break;
     case "sujecion":
-        sujecion.checked = true;
+        sujecion.checked = true
+        ActualizarCatalogo()
         break;
     case "bisacha":
-        bisagras.checked = true;
+        bisagras.checked = true
+        manijas.checked = true
+        ActualizarCatalogo();
         break;
     case "tornilleria":
-        tornilleria.checked = true;
+        tornilleria.checked = true
+        ActualizarCatalogo()
         break;
     default:
-        const catalogoProductos = document.querySelector("#catalogoProductos")
-        const tarjetaCatalogo = document.querySelector(".tarjetaCatalogo")
+        
+        break;
+}
 
-        fetch("http://localhost:3000/herramientas_catalogo").then(recurso => recurso.json()).then(respuesta => {
-            for(i = 0; i < respuesta.idHerramientas.length; i++){
+const marca = document.querySelector("#marca")
+const botonMostrarMas = document.querySelector("#mostrarMas p")
+let mostrado = false
+
+function MostrarMasMarcas(){
+    if(mostrado){
+        marca.style.height = "19vh"
+        botonMostrarMas.innerHTML = "Mostrar más..."
+        mostrado = false
+    }else{
+        marca.style.height = "auto"
+        botonMostrarMas.innerHTML = "Mostrar menos..."
+        mostrado = true
+    }
+}
+
+window.onload = function(){
+    localStorage.clear()
+}
+
+function actualizarTotal() {
+    let total = 0;
+    const productos = contenedorMercanciaCarrito.querySelectorAll(".tarjetaCarrito");
+    const totalApagar = document.querySelector("#totalApagar")
+    
+    /*empieza en 1 por que agarra la tarjeta original */
+    for(i = 1; i < productos.length; i++){
+        const cantidad = productos[i].querySelector(".noPaquetesCarrito").value
+        const precioUnitario = productos[i].querySelector(".precioFinal").textContent.replace("$", "")
+
+        /*console.log(cantidad)
+        console.log(precioUnitario)*/
+        total += parseInt(cantidad) * parseFloat(precioUnitario)
+
+        /*console.log(parseFloat(precioUnitario))
+        console.log(parseInt(cantidad))
+        console.log(parseInt(cantidad) * parseFloat(precioUnitario))
+        console.log(total)*/
+    }
+
+    totalApagar.innerHTML = "Total a pagar: $" + total.toFixed(2);
+    totalGlobal = total;
+}
+
+function ActualizarCatalogo(filtro){
+    const catalogoProductos = document.querySelector("#catalogoProductos")
+    const tarjetaCatalogo = document.querySelector(".tarjetaCatalogo")
+    catalogoProductos.innerHTML = "";
+
+    fetch("http://localhost:3000/obtener_ids_filtrado_de_" + filtro).then(recurso => recurso.json()).then(respuesta => {
+        for(i = 0; i < respuesta.idHerramientas.length; i++){
                 const clonTarjetaCatalogo = tarjetaCatalogo.cloneNode(true)
                 catalogoProductos.appendChild(clonTarjetaCatalogo)
 
@@ -218,59 +293,54 @@ switch(localStorage.getItem("categoria")){
                             actualizarTotal();
                         })
                         
-                        /*if(tarjetaCarrito){
-                            tarjetaCarrito.remove()
-                        }*/
                        tarjetaCarrito.style.display = "none"
                        actualizarTotal();
                     })
                 })
             }
             tarjetaCatalogo.remove()
-        })
-        break;
-}
+    })
 
-const marca = document.querySelector("#marca")
-const botonMostrarMas = document.querySelector("#mostrarMas p")
-let mostrado = false
-
-function MostrarMasMarcas(){
-    if(mostrado){
-        marca.style.height = "19vh"
-        botonMostrarMas.innerHTML = "Mostrar más..."
-        mostrado = false
-    }else{
-        marca.style.height = "auto"
-        botonMostrarMas.innerHTML = "Mostrar menos..."
-        mostrado = true
-    }
-}
-
-window.onload = function(){
-    localStorage.clear()
-}
-
-function actualizarTotal() {
-    let total = 0;
-    const productos = contenedorMercanciaCarrito.querySelectorAll(".tarjetaCarrito");
-    const totalApagar = document.querySelector("#totalApagar")
     
-    /*empieza en 1 por que agarra la tarjeta original */
-    for(i = 1; i < productos.length; i++){
-        const cantidad = productos[i].querySelector(".noPaquetesCarrito").value
-        const precioUnitario = productos[i].querySelector(".precioFinal").textContent.replace("$", "")
-
-        /*console.log(cantidad)
-        console.log(precioUnitario)*/
-        total += parseInt(cantidad) * parseFloat(precioUnitario)
-
-        /*console.log(parseFloat(precioUnitario))
-        console.log(parseInt(cantidad))
-        console.log(parseInt(cantidad) * parseFloat(precioUnitario))
-        console.log(total)*/
-    }
-
-    totalApagar.innerHTML = "Total a pagar: $" + total.toFixed(2);
-    totalGlobal = total;
 }
+
+window.addEventListener("keydown", (evento) => {
+    if(evento.key === "Escape" || evento.key === "Esc"){
+        ventanaOscuraCarrito.style.display = "none"
+    }
+})
+
+
+/*const precioAlto = document.querySelector("#precioAlto");
+const precioBajo = document.querySelector("#precioBajo");
+const promociones = document.querySelector("#promociones");
+
+const herManual = document.querySelector("#herManual");
+const herElectrica = document.querySelector("#herElectrica");
+const herEstacionaria = document.querySelector("#herEstacionaria");
+const contenedores = document.querySelector("#contenedores");
+const compresores = document.querySelector("#compresores");
+const sujecion = document.querySelector("#sujecion");
+const bisagras = document.querySelector("#bisagras");
+const manijas = document.querySelector("#manijas");
+const tornilleria = document.querySelector("#tornilleria");
+const soldadura = document.querySelector("#soldadura");
+
+const dewalt = document.querySelector("#dewalt");
+const milwaukee = document.querySelector("#milwaukee");
+const bocsh = document.querySelector("#bocsh");
+const makita = document.querySelector("#makita");
+const stanley = document.querySelector("#stanley");
+const ryobi = document.querySelector("#ryobi");
+const infra = document.querySelector("#infra");
+const truper = document.querySelector("#truper");
+const generica = document.querySelector("#generica");*/
+
+
+/*
+
+
+        fetch("http://localhost:3000/herramientas_catalogo").then(recurso => recurso.json()).then(respuesta => {
+            
+        })
+*/
