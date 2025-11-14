@@ -84,6 +84,12 @@ const server = http.createServer((request, response) => {
                 conexion_db.query("SELECT idHerramienta FROM `herramientas` WHERE estaDescuento = 1", (err, resultado) => {
                     if(err){
                         console.log(err)
+                        const objeto_error = {
+                            "mensaje": "no hay productos en descuento"
+                        }
+                        response.statusCode = 401;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify(objeto_error));
                         return 0
                     }
 
@@ -213,10 +219,128 @@ const server = http.createServer((request, response) => {
             }
 
             /*-------- catalogo ----------------------------------------------------------------------------------------------------*/
+          
+            if(request.url.startsWith("/obtener_ids_filtrado_de")){
+                let urlDesmenusar = request.url.replace("/obtener_ids_filtrado_de", "")
+                let filtro = urlDesmenusar.split("?")[1]
+                //console.log(filtro)
+                let consultas = filtro.split("&")
+                //console.log(consultas)
+                
+                let objeto_consulta = {
+                    categoria: "",
+                    marca: "",
+                    pma: false,
+                    pmb: false,
+                    promocion: false
+                }
+
+                for(i = 0; i < consultas.length; i++){
+                    if(consultas[i].startsWith("categoria=")) objeto_consulta.categoria = consultas[i].replace("categoria=", "")
+                    if(consultas[i].startsWith("marca=")) objeto_consulta.marca = consultas[i].replace("marca=", "")
+                    if(consultas[i].startsWith("pma=")) objeto_consulta.pma = consultas[i].replace("pma=", "")
+                    if(consultas[i].startsWith("pmb=")) objeto_consulta.pmb = consultas[i].replace("pmb=", "")
+                    if(consultas[i].startsWith("promocion=")) objeto_consulta.promocion = consultas[i].replace("promocion=", "")
+                }
+
+                //console.log(objeto_consulta)
+
+                let consultaSQL = "SELECT idHerramienta FROM `herramientas`"
+                let condiciones = []
+                let valores = []
+
+                if(objeto_consulta.pma == "true") consultaSQL = "SELECT idHerramienta, IF(estaDescuento = 1, costoPorLote - ((costoPorLote * descuentoPorcentaje)/100), costoPorLote) AS precioFinal FROM `herramientas`"
+
+                if(objeto_consulta.categoria == "true") consultaSQL = "SELECT idHerramienta, IF(estaDescuento = 1, costoPorLote - ((costoPorLote * descuentoPorcentaje)/100), costoPorLote) AS precioFinal FROM `herramientas`"
+
+                if(objeto_consulta.categoria != ""){
+                    condiciones.push("categoria = ?")
+                    valores.push(objeto_consulta.categoria)
+                }
+
+                if(objeto_consulta.marca != ""){
+                    condiciones.push("marca = ?")
+                    valores.push(objeto_consulta.marca)
+                }
+
+                if(objeto_consulta.promocion == "true"){
+                    condiciones.push("estaDescuento = ?")
+                    valores.push(1)
+                }
+
+                if(condiciones.length != 0){
+                    consultaSQL += " WHERE " + condiciones.join(" AND ");
+                }
+
+                if(objeto_consulta.pma == "true") consultaSQL += " ORDER BY precioFinal DESC"
+
+                if(objeto_consulta.categoria == "true") consultaSQL += " ORDER BY precioFinal ASC"
+
+                console.log(consultaSQL)
+
+                conexion_db.query(consultaSQL, valores, (err, resultado) => {
+                    if(err){
+                        const objeto_error = {
+                            "mensaje": "Error al consultar herramientas"
+                        }
+                        response.statusCode = 401;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify(objeto_error));
+                    }
+
+                    if(resultado.length == 0){
+                        const objeto_error = {
+                            "mensaje": "No se ha encontrado la herramienta"
+                        }
+                        response.statusCode = 404;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify(objeto_error));
+                        return 0
+                    }
+
+                    //console.log(resultado)
+
+                    let arregloId = []
+                    for(i = 0; i < resultado.length; i++){
+                        arregloId[i] = resultado[i].idHerramienta
+                    }
+                    console.log(arregloId)
+
+                    arregloIdsAMandar = [...new Set(arregloId)]
+                    //console.log(----------------------------)
+                    //console.log(arregloIdsAMandar)
+
+                    const objeto_ids = {
+                        "idHerramientas": arregloIdsAMandar
+                    };
+
+                    response.statusCode = 200;
+                    response.setHeader("Content-Type", "application/json");
+                    response.end(JSON.stringify(objeto_ids));
+                })
+                return 0
+            }
+
             if(request.url == "/herramientas_catalogo"){
-                conexion_db.query("SELECT idHerramienta FROM `herramientas` LIMIT 16", (err, resultado) => {
+                conexion_db.query("SELECT idHerramienta FROM `herramientas`", (err, resultado) => {
                     if(err){
                         console.log(err)
+                        const objeto_error = {
+                            "mensaje": "error al consultar las herrameintas"
+                        }
+                        response.statusCode = 401;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify(objeto_error));
+                        return 0
+                    }
+
+                    if(resultado.length == 0){
+                        const objeto_error = {
+                            "mensaje": "No se ha encontrado la herramienta"
+                        }
+                        response.statusCode = 404;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify(objeto_error));
                         return 0
                     }
 
@@ -239,7 +363,7 @@ const server = http.createServer((request, response) => {
                return 0
             }
 
-            if(request.url.startsWith("/obtener_ids_filtrado_de_")){
+            /*if(request.url.startsWith("/obtener_ids_filtrado_de_")){
                 let concepto = request.url.replace("/obtener_ids_filtrado_de_", "")
 
                 const objeto_consultas = {
@@ -274,7 +398,7 @@ const server = http.createServer((request, response) => {
                 }
 
                 let arregloConceptos = []
-                if(concepto) arregloConceptos = concepto.split("_")
+                if(concepto && concepto != "") arregloConceptos = concepto.split("_")
                 else arregloConceptos.push("nada")
 
                 let arregloConcatenadoIds = []
@@ -330,11 +454,12 @@ const server = http.createServer((request, response) => {
                             }
 
                             arregloConcatenadoIds = arregloConcatenadoIds.concat(arregloId)
+                            arregloIdsAMandar = [...new Set(arregloConcatenadoIds)]
                             //console.log(----------------------------)
                             //console.log(arregloConcatenadoIds)
 
                             const objeto_ids = {
-                                "idHerramientas": arregloConcatenadoIds
+                                "idHerramientas": arregloIdsAMandar
                             };
 
                             response.statusCode = 200;
@@ -345,7 +470,7 @@ const server = http.createServer((request, response) => {
                 }
                 
                 return 0
-            }
+            }*/
 
             /*----------sobre nosotros-------------------------------------------------------------------------------------------------*/
             if(request.url == "/nosotros"){
@@ -365,7 +490,7 @@ const server = http.createServer((request, response) => {
             /*------USUARIOS---------------------------------------------------------------------------------------------------------- */
 
             if(request.url == "/obtener_usuario"){
-                if (!authHeader || authHeader == "" || authHeader == null || authHeader == undefined) {
+                if (!authHeader || authHeader == "" || authHeader == null || authHeader == "null") {
                     response.statusCode = 401;
                     response.setHeader('Content-Type', 'application/json');
                     response.end(JSON.stringify({
@@ -374,9 +499,18 @@ const server = http.createServer((request, response) => {
                     return 0
                 }
 
-                try{
-                    const decoded = jwt.verify(authHeader, llave) //esta linea hacia que me crasheara el código, así que lo meti a un try catch MUAJAJA
-                    
+                jwt.verify(authHeader, llave, (err, decoded) => {
+                    if(err){
+                        console.log("Error al verificar la autenticidad", err)
+
+                        response.statusCode = 401;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify({
+                            "mensaje": "Token inválido o expirado, por favor inicie sesión nuevamente"
+                        }));
+                        return 0
+                    }
+
                     conexion_db.query("SELECT idUsuario, nombre, rol FROM `usuarios` WHERE email = ?", [decoded.username], (err, resultado) => {
                         if (err) {
                             console.log(err);
@@ -394,32 +528,17 @@ const server = http.createServer((request, response) => {
                                 response.end(JSON.stringify({
                                     "idUsuario": resultado[0].idUsuario,
                                     "imagenPerfil": file,
-                                    "nombre": resultado[0].nombre
+                                    "nombre": resultado[0].nombre,
+                                    "rol": resultado[0].rol
                                 }));
                             }
                         })
 
                         //conexion_db.end();
                     })
-                }
-                catch (err){
-                    console.log("Error al verificar la autenticidad", err.message)
+                })
 
-                    let mensaje
-                    if(err.name == "TokenExpiredError"){
-                        mensaje = "Token expirado, por favor inicie sesión nuevamente"
-                    }
-                    else{
-                        mensaje = "Token inválido"
-                    }
-
-                    response.statusCode = 401;
-                    response.setHeader('Content-Type', 'application/json');
-                    response.end(JSON.stringify({
-                        "mensaje": mensaje
-                    }));
-                    return 0
-                }
+                
                 return 0
             }
 
@@ -564,6 +683,7 @@ const server = http.createServer((request, response) => {
                     response.end(arregloimagenes[posicionPortada])
                     return 0;
                 }
+
                 if(request.url == "/recarga"){
                     posicionPortada = 0
                     
@@ -573,7 +693,115 @@ const server = http.createServer((request, response) => {
                     response.end(arregloimagenes[posicionPortada])
                     return 0;
                 }
-                
+
+                if(request.url == "/rol_usuario"){
+                    //console.log(infoEditarJson)
+
+                    if(infoEditarJson.rol != "vendedor" && infoEditarJson.rol != "comprador"){
+                        response.statusCode = 401;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify({
+                            "mensaje": "Error, rol no definido"
+                        }));
+                        return 0
+                    }
+
+                    if (!authHeader || authHeader == "" || authHeader == null || authHeader == "null") {
+                        response.statusCode = 401;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify({
+                            "mensaje": "token no proporcionado"
+                        }));
+                        return 0
+                    }
+
+                    jwt.verify(authHeader, llave, (err, decoded) => {
+                        if(err){
+                            console.log("Error al verificar la autenticidad", err)
+
+                            response.statusCode = 401;
+                            response.setHeader('Content-Type', 'application/json');
+                            response.end(JSON.stringify({
+                                "mensaje": "Token inválido o expirado, por favor inicie sesión nuevamente"
+                            }));
+                            return 0
+                        }
+
+                        conexion_db.query("SELECT idUsuario FROM `usuarios` WHERE email = ?", [decoded.username], (err, resultado) => {
+                            //console.log("----------------------")
+                            //console.log(resultado)
+                            if(err){
+                                console.log(err)
+                                const objeto_error = {
+                                    "mensaje": "Error intentelo de nuevo"
+                                }
+                                response.statusCode = 401;
+                                response.setHeader('Content-Type', 'application/json');
+                                response.end(JSON.stringify(objeto_error));
+                                return 0
+                            }
+
+                            //console.log(resultado)
+                            if(resultado.length == 0){
+                                console.log(err)
+                                const objeto_error = {
+                                    "mensaje": "Error, el usuario no coincide con el email"
+                                }
+                                response.statusCode = 401;
+                                response.setHeader('Content-Type', 'application/json');
+                                response.end(JSON.stringify(objeto_error));
+                                return 0
+                            }
+
+                            let consultaSQL = "UPDATE `usuarios` SET `rol`= ? WHERE idUsuario = ?"
+                            let condicion = [infoEditarJson.rol, resultado[0].idUsuario]
+                            //console.log(condicion)
+                            
+                            conexion_db.query(consultaSQL, condicion, (err, resp) => {
+                                console.log(resp)
+                                if (err) {
+                                    console.log("Error al editar", err);
+                                    conexion_db.end()
+                                    return 0
+                                }
+
+                                //const idUsuario = resultado[0].idUsuario
+                                //console.log("idUsuario", idUsuario)
+                                conexion_db.query("SELECT rol FROM `usuarios` WHERE idUsuario = ?", [resultado[0].idUsuario], (err, res) => {
+                                    console.log("idConsulta ",resultado[0].idUsuario)
+                                    console.log("respuesta ", res[0])
+                                    if(err){
+                                        console.log("Error al consultar el rol", err)
+                                        conexion_db.end()
+                                        return 0
+                                    }
+
+                                    let mensaje_rol
+                                    if(res[0].rol == "vendedor") mensaje_rol = "Se ha aprobado tu licencia, ahora eres vendedor"
+                                    else if(res[0].rol == "comprador") mensaje_rol = "Se ha dado de baja tu perfil como vendedor"
+
+                                    const objeto_mensaje = {
+                                        "mensaje": mensaje_rol
+                                    }
+                                    response.statusCode = 200;
+                                    response.setHeader('Content-Type', 'application/json');
+                                    response.end(JSON.stringify(objeto_mensaje));
+                                })
+                                
+                            })
+
+                            //conexion_db.end();
+                        })
+                    })
+                    
+                    return 0;
+                }
+
+                response.statusCode = 404
+                response.setHeader("Content-Type", "application/json")
+                response.end(JSON.stringify({
+                    "mensaje": "Nada por aquí"
+                }))
             })
             break;
         case "DELETE":

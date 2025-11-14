@@ -121,3 +121,8 @@
     accent-color: #0D2555;
     cursor: pointer;
 }
+
+/*vendedor*/
+#vendedorBoton{
+    display: none;
+}

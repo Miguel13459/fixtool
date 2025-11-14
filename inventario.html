@@ -7,8 +7,11 @@
     <link rel="icon" href="./recursos/favicon.png" type="image/png">
 
     <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/carrito.css">
     <link rel="stylesheet" href="./css/inventario.css">
     <link rel="stylesheet" href="./css/mensajesEmergentes/ventanaBorrar.css">
+    <link rel="stylesheet" href="./css/mensajesEmergentes/registro.css">
+    <link rel="stylesheet" href="./css/mensajesEmergentes/iniciosesion.css">
 
     <link rel="stylesheet" href="./css/carrito.css">
 
@@ -18,7 +21,41 @@
 </head>
 <body>
     <header>
-        
+        <div id="barraArriba">
+            <div id="logo">
+                <img src="./recursos/img/logo.svg" alt="logo" id="logo">
+            </div>
+            <div id="barraBusquedaContenedor">
+                <input type="search" name="buscador" id="barraBusqueda" placeholder="Buscar">
+            </div>
+            <div id="usuarioControles">
+                <div id="contenedorInicioSesion">
+                    <div id="botonesLogin">
+                        <button id="inicioSesion" class="botonesRegistro" onclick="IniciarSesion()">Iniciar Sesión</button>
+                        <button id="registrar" class="botonesRegistro" onclick="Registrarse()">Registrarse</button>
+                    </div>
+                    <div id="sesionNombreFoto">
+                        <p>Bienvenido [Nombre]</p>
+                        <img src="./recursos/img/view-preview-svgrepo-com.svg" alt="perfil" id="imgPerfil">
+                        <div id="menuPerfil">
+                            <label class="opcionMenu">
+                                <input type="checkbox" id="modoVendedor"> Modo vendedor
+                            </label>
+                            <div class="opcionMenu" id="cerrarSesion">Cerrar sesión</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="width: 90%;">
+        <div id="contenedorNav">
+            <nav>
+                <div class="botonBarraNav" onclick="window.location.href = 'index.html'"><p>Inicio</p></div>
+                <div class="botonBarraNav" onclick="window.location.href = 'catalogo.html'"><p>Catálogo</p></div>
+                <div class="botonBarraNav" onclick="window.location.href = 'nosotros.html'"><p>Sobre nosotros</p></div>
+                <div id="vendedorBoton" class="botonBarraNav" onclick="window.location.href = 'inventario.html'"><p>Inventario</p></div>
+            </nav>
+        </div>
     </header>
     <div id="cuerpoInventario">
         <div id="envaceInventario">
@@ -193,16 +230,19 @@
         </div>
     </div>
 
-    <!--Profesor, si lee esto, estos divs que estan abajo son ventanas emergentes, se hizo así para evitar escribir tanto código en 
-    el HTML de todos los HTML y si tengo que modificar algo solo lo hago desde los códigos en la carpeta de componentes-->
-    <!--carrito-->
-    <div id="ventanaOscuraCarrito">
+    
+    <!--anuncio para registrarse-->
+    <div id="ventanaOscuraRegistro">
         
     </div>
 
+    <!--anuncio para iniciar sesión-->
+    <div id="ventanaOscuraInicioSesion">
+        
+    </div>
 </body>
 <!--Componentes que se repiten en el document-->
-<script src="./js/componentes/header.js"></script>
-<script src="./js/componentes/carrito.js"></script>
+<script src="./js/componentes/ventanasesion.js"></script>
+<script src="./js/componentes/ventanaregistro.js"></script>
 
 </html>

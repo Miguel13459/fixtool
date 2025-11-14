@@ -56,7 +56,7 @@ fetch("http://localhost:3000/herramientas_inicio").then(recurso => recurso.json(
             ahorra.innerHTML = "Ahorras: $ " + respuesta.ahorras.toFixed(2)
 
             const porUnidad = tarjetaClonOferta.querySelector(".porUnidad")
-            porUnidad.innerHTML = "Precio por unidad $" + respuesta.costoPorPieza.toFixed(2)
+            porUnidad.innerHTML = "$" + respuesta.costoPorPieza.toFixed(2) + " por pieza"
 
             const cantidadPorPaquete = tarjetaClonOferta.querySelector(".cantidadPorPaquete")
             cantidadPorPaquete.innerHTML = "Paquete de " + respuesta.paquetesPorLote + "pz"

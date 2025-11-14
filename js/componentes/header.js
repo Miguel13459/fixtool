@@ -35,6 +35,7 @@ header.innerHTML = `<div id="barraArriba">
                 <div class="botonBarraNav" onclick="window.location.href = 'index.html'"><p>Inicio</p></div>
                 <div class="botonBarraNav" onclick="window.location.href = 'catalogo.html'"><p>Catálogo</p></div>
                 <div class="botonBarraNav" onclick="window.location.href = 'nosotros.html'"><p>Sobre nosotros</p></div>
+                <div id="vendedorBoton" class="botonBarraNav" onclick="window.location.href = 'inventario.html'"><p>Inventario</p></div>
             </nav>
         </div>`
 

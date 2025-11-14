@@ -71,6 +71,11 @@ const sesionNombreFoto = document.querySelector("#sesionNombreFoto")
 const textoSaludo = document.querySelector("#sesionNombreFoto p")
 const imagenPerfil = document.querySelector("#imgPerfil")
 
+const menuPerfil = document.querySelector("#menuPerfil");
+const cerrarSesion = document.querySelector("#cerrarSesion");
+const modoVendedor = document.querySelector("#modoVendedor");
+const vendedorBoton = document.querySelector("#vendedorBoton")
+
 function ObtenerUsuario(){
     fetch("http://localhost:3000/obtener_usuario", {
         method: "GET",
@@ -91,6 +96,12 @@ function ObtenerUsuario(){
                 const blob = new Blob([arregloBytes])
                 let imagen64 = URL.createObjectURL(blob)
                 imagenPerfil.src = imagen64
+
+                if(respuesta.rol == "vendedor"){
+                    modoVendedor.checked = true
+                    vendedorBoton.style.display = "flex"
+                }
+
                 QuitarVentanaSesion()
             })
         }else{
@@ -101,17 +112,6 @@ function ObtenerUsuario(){
     })
 }
 
-/*
-este codigo se encuentra en el header.js
-<div id="menuPerfil">
-    <label class="opcionMenu">
-        <input type="checkbox" id="modoVendedor"> Modo vendedor
-    </label>
-    <div class="opcionMenu" id="cerrarSesion">Cerrar sesión</div>
-</div> */
-const menuPerfil = document.querySelector("#menuPerfil");
-const cerrarSesion = document.querySelector("#cerrarSesion");
-const modoVendedor = document.querySelector("#modoVendedor");
 
 let estaDesplegado = false
 imagenPerfil.addEventListener("click", (evento) => {
@@ -125,29 +125,46 @@ imagenPerfil.addEventListener("click", (evento) => {
         menuPerfil.style.display = "flex"
         estaDesplegado = true
     }
-});
+})
 
 document.addEventListener("click", () => {
     menuPerfil.style.display = "none"
-});
+})
 
 cerrarSesion.addEventListener("click", () => {
-    sessionStorage.removeItem("token_sesion");
-    alert("Sesión cerrada correctamente.");
-    window.location.reload();
-});
+    sessionStorage.removeItem("token_sesion")
+    alert("Sesión cerrada correctamente.")
+    window.location.reload()
+})
 
 modoVendedor.addEventListener("change", () => {
-    if (modoVendedor.checked) {
-        alert("Modo vendedor activado");
-        sessionStorage.setItem("rol_usuario", "true");
-    } else {
-        alert("Modo vendedor desactivado");
-        sessionStorage.setItem("rol_usuario", "false");
-    }
-});
+    let nuevoRol
+    if(modoVendedor.checked) nuevoRol = "vendedor"
+    else nuevoRol = "comprador"
+
+    fetch("http://localhost:3000/rol_usuario", {
+            method: "PUT",
+            body: JSON.stringify({"rol": nuevoRol}),
+            headers: {"Authorization" : sessionStorage.getItem("token_sesion")}
+        }).then(recurso => {
+            if(recurso.status == 200){
+                recurso.json().then(respuesta => {
+                    
+                    if(modoVendedor.checked) vendedorBoton.style.display = "flex"
+                    else vendedorBoton.style.display = "none"
+                    
+                    alert(respuesta.mensaje)
+                })
+            }else{
+                recurso.json().then(respuesta => {
+                    alert(respuesta.mensaje)
+                })
+            }
+        })
+    
+})
 
 /*window.addEventListener("DOMContentLoaded", () => {
-    const estado = sessionStorage.getItem("rol_usuario");
-    if (estado == "true") modoVendedor.checked = true;
-});*/
+    const estado = sessionStorage.getItem("rol_usuario")
+    if (estado == "true") modoVendedor.checked = true
+})*/
