@@ -69,7 +69,7 @@
                             <h3>Subir nuevo producto</h3>
                         </div>
                         <div id="cajaBotonCrear">
-                            <button class="botonInventario">Subir producto</button>
+                            <button class="botonInventario" onclick="SubirNuevoProducto()">Subir producto</button>
                         </div>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                 <!--      FORMULARIO PARA CREAR UNA PUBLICACIÓN      -->
                 <div id="formulario">
                     <div id="skuProducto" class="secciones">
-                        <p>SKU: </p>
+                        <p>SKU: -</p>
                     </div>
                     <div id="previsualizarImagen" class="secciones">
                         <img src="./recursos/img/view-preview-svgrepo-com.svg" alt="preview" id="preview">
@@ -94,9 +94,9 @@
                         <label for="textoDescripcion">Descripción del producto</label>
                         <textarea name="textoDescripcion" id="textoDescripcion" placeholder="¿Qué es y cómo funciona su producto?"></textarea>
                     </div>
-                    <div id="precioCantidadCaja" >
+                    <div id="precioCantidadCaja" class="secciones">
                         <div id="precio">
-                            <label for="precioPorLote" id="pPu">Precio por unidad</label>
+                            <label for="precioPorLote" id="pPu">Precio por lote</label>
                             <div class="cajitaInputPrecioCantidad">
                                 <p>$</p>
                                 <input type="text" name="precioPorLote" id="precioPorLote">
@@ -111,16 +111,24 @@
                             </div>
                         </div>
                     </div>
-                    <div id="precioPorUnidad" class="secciones">
-                        <p>Precio por unidad: </p>
-                        <p id="precioUnidad">$ 00.00</p>
-                    </div>
                     <div id="tipoMarcaCaja" class="secciones">
-                        <div id="tipo">
-                            <input type="text" name="tipoProducto" id="tipoProducto" placeholder="Tipo">
+                        <div class="selectPersonalizado" id="tipo">
+                            <input type="text" name="tipoProducto" id="tipoProducto" placeholder="Tipo" readonly>
+                            <div class="trianguloContenedor">
+                                <img src="recursos/iconos/triangulo.svg" alt="icono" class="triangulo">
+                            </div>
+                            <ul id="opcionesTipo" class="opciones">
+                                <li>opción 1</li>
+                            </ul>
                         </div>
-                        <div id="Marca">
-                            <input type="text" name="marcaProducto" id="marcaProducto" placeholder="Marca">
+                        <div class="selectPersonalizado" id="marca">
+                            <input type="text" name="marcaProducto" id="marcaProducto" placeholder="Marca" readonly>
+                            <div class="trianguloContenedor">
+                                <img src="recursos/iconos/triangulo.svg" alt="icono" class="triangulo">
+                            </div>
+                            <ul id="opcionesMarca" class="opciones">
+                                <li>opción 1</li>
+                            </ul>
                         </div>
                     </div>
                     <div id="promocionEstatusCaja" class="secciones">
@@ -148,10 +156,16 @@
                     <div id="promocionAplicable" class="secciones">
                         <div id="cajaPromocion">
                             <label for="ponerPromocion">Descuento aplicable</label>
-                            <input type="text" name="ponerPromocion" id="ponerPromocion">
+                            <input type="text" name="ponerPromocion" id="ponerPromocion" value="0">
                         </div>
-                        <p id="precioConDescuento">$ 00.00</p>
-                        <p>Precio total con descuento</p>
+                        <div class="precioDescCaja">
+                            <p>Precio final con descuento</p>
+                            <p id="precioConDescuento" style="font-size: 1rem;">$ 00.00</p>
+                        </div>
+                        <div id="precioPorUnidad" class="secciones">
+                            <p>Precio de cada piiza: </p>
+                            <p id="precioDePiezasPorPaquete">$ 00.00 por pieza</p>
+                        </div>
                     </div>
                     <div id="contenedorBoton">
                         <button class="botonInventario">Subir producto</button>
@@ -169,7 +183,7 @@
                         <div class="tituloEstatus">
                             <p class="skuInventario">SKU: HR-011</p>
                             <div class="cajaEstatus">
-                                <p class="estatus">Estatus: Activo</p>
+                                <p class="estatusTexto">Estatus: Activo</p>
                                 <div class="bolitaEstatus"></div>
                             </div>
                         </div>
@@ -179,13 +193,14 @@
                                     <img src="./recursos/img/view-preview-svgrepo-com.svg" alt="imgProducto" class="imgProductoInventario">
                                 </div>
                                 <div class="infoProducto">
-                                    <p class="marcaInventario">BOCSH</p>
+                                    <div class="precioTotalCaja">
+                                        <p class="marcaInventario">BOCSH</p>
+                                        <p class="promocionPintado">Promoción</p>
+                                    </div>
                                     <p class="tituloInventario">Rotomartillo con bateria 18V</p>
                                     <p class="piezasPorLoteInventario">Piezas por lote: 4</p>
-                                    <div class="preciosUnidadesInventario">
-                                        <p class="precioPorUnidad">Precio por unidad: $ 00.00 </p>
-                                        <p class="precioTotal">Precio total: $ 00.00</p>
-                                    </div>
+                                    <p class="precioUnidadInventario">Precio por unidad: $ 00.00 </p>
+                                    <p class="precioTotalInventario">Precio total: $ 00.00</p>
                                 </div>
                             </div>
                             <div class="cajaBotonEliminar">
@@ -244,5 +259,7 @@
 <!--Componentes que se repiten en el document-->
 <script src="./js/componentes/ventanasesion.js"></script>
 <script src="./js/componentes/ventanaregistro.js"></script>
+
+<script src="./js/inventario.js"></script>
 
 </html>

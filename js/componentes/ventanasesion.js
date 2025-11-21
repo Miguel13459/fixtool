@@ -6,14 +6,14 @@ ventanaOscuraInicioSesion.innerHTML = `<div id="anuncioInicioSesion">
                 <div class="mentajeRegistro">
                     <p>Inicia sesión en nuestra página</p>
                 </div>
-                <div class="formularioLogin">
+                <div class="formularioLogin" id="formularioInicioSesion">
                     <div id="correoCajaSesion" class="elementosLogin inputsDobles">
                         <label for="correoSesion">Correo electrónico</label>
                         <input type="text" name="correoSesion" id="correoSesion" >
                     </div>
                     <div id="contrasenaCajaSesion" class="elementosLogin inputsDobles">
                         <label for="contrasenaSesion">Contraseña</label>
-                        <input type="text" name="contrasenaSesion" id="contrasenaSesion" >
+                        <input type="password" name="contrasenaSesion" id="contrasenaSesion" >
                     </div>
                 </div>
                 <div id="IniciarSesionBotonCaja" class="elementosLogin">
@@ -85,13 +85,13 @@ function ObtenerUsuario(){
     }).then(recurso => {
         if(recurso.status == 200){
             recurso.json().then(respuesta => {
-
+                console.log(respuesta)
                 botonesLogin.style.display = "none"
                 sesionNombreFoto.style.display = "flex"
 
                 textoSaludo.innerHTML = "Bienvenido " + respuesta.nombre
                 
-                console.log(respuesta.imagenPerfil)
+                //console.log(respuesta.imagenPerfil)
                 const arregloBytes = new Uint8Array(respuesta.imagenPerfil.data)
                 const blob = new Blob([arregloBytes])
                 let imagen64 = URL.createObjectURL(blob)
@@ -151,13 +151,17 @@ modoVendedor.addEventListener("change", () => {
                 recurso.json().then(respuesta => {
                     
                     if(modoVendedor.checked) vendedorBoton.style.display = "flex"
-                    else vendedorBoton.style.display = "none"
-                    
+                    else {
+                        vendedorBoton.style.display = "none"
+                        window.location.href = "index.html"
+                    }
+
                     alert(respuesta.mensaje)
                 })
             }else{
                 recurso.json().then(respuesta => {
                     alert(respuesta.mensaje)
+                    
                 })
             }
         })

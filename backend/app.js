@@ -67,6 +67,15 @@ fs.readFile("./backend/sobrenosotros/sobrenosotros.json", (err, file) => {
     objetoNosotros = JSON.parse(file.toString())
 })
 
+/* categorias de herramientas */
+let objetoCategorias
+fs.readFile("./backend/herramientas/clasificacion.json", (err, file) => {
+    if(err){
+        console.log("Hubo un error leyendo las categorias", err)
+        return 0
+    }
+    objetoCategorias = JSON.parse(file.toString())
+})
 
 const server = http.createServer((request, response) => {
     response.setHeader("Access-Control-Allow-Origin", "*")
@@ -145,6 +154,25 @@ const server = http.createServer((request, response) => {
                     let ahorras
                     let costoPorPieza
                     let objeto_herramienta = null
+
+                    let marca
+                    //console.log(objetoCategorias.marcas)
+                    //console.log(resultado[0].marca)
+                    for(i = 0; i < objetoCategorias.marcas.length; i++){
+                        if(objetoCategorias.marcas[i].bd == resultado[0].marca){
+                            marca = objetoCategorias.marcas[i].cliente
+                            break
+                        }
+                    }
+
+                    let tipo
+                    for(i = 0; i < objetoCategorias.tipos.length; i++){
+                        if(objetoCategorias.tipos[i].bd == resultado[0].categoria){
+                            tipo = objetoCategorias.tipos[i].cliente
+                            break
+                        }
+                    }
+
                     if(resultado[0].estaDescuento == 1){
                         costoPorLote = resultado[0].costoPorLote - ((resultado[0].costoPorLote * resultado[0].descuentoPorcentaje)/100)
                         ahorras = resultado[0].costoPorLote - costoPorLote
@@ -152,8 +180,8 @@ const server = http.createServer((request, response) => {
 
                         objeto_herramienta = {
                             "idHerramienta": resultado[0].idHerramienta,
-                            "marca": resultado[0].marca,
-                            "categoria": resultado[0].categoria,
+                            "marca": marca,
+                            "categoria": tipo,
                             "titulo": resultado[0].titulo,
                             "estaDescuento": resultado[0].estaDescuento,
                             "descuentoPorcentaje": resultado[0].descuentoPorcentaje,
@@ -164,14 +192,16 @@ const server = http.createServer((request, response) => {
                             "PrecioAntes" : resultado[0].costoPorLote,
                             "descripcion": resultado[0].descripcion,
                             "imagen": resultado[0].imagen,
+                            "activo": resultado[0].activo,
                             "vendedor": resultado[0].vendedor
+                            
                         }
                     } else{
                         costoPorPieza = resultado[0].costoPorLote/resultado[0].paquetesPorLote
                         objeto_herramienta = {
                             "idHerramienta": resultado[0].idHerramienta,
-                            "marca": resultado[0].marca,
-                            "categoria": resultado[0].categoria,
+                            "marca": marca,
+                            "categoria": tipo,
                             "titulo": resultado[0].titulo,
                             "estaDescuento": resultado[0].estaDescuento,
                             "descuentoPorcentaje": resultado[0].descuentoPorcentaje,
@@ -182,6 +212,7 @@ const server = http.createServer((request, response) => {
                             "PrecioAntes" : 0,
                             "descripcion": resultado[0].descripcion,
                             "imagen": resultado[0].imagen,
+                            "activo": resultado[0].activo,
                             "vendedor": resultado[0].vendedor
                         }
                     }
@@ -249,10 +280,12 @@ const server = http.createServer((request, response) => {
                 let condiciones = []
                 let valores = []
 
+                condiciones.push("activo = 1")
+
                 if(objeto_consulta.pma == "true") consultaSQL = "SELECT idHerramienta, IF(estaDescuento = 1, costoPorLote - ((costoPorLote * descuentoPorcentaje)/100), costoPorLote) AS precioFinal FROM `herramientas`"
 
-                if(objeto_consulta.categoria == "true") consultaSQL = "SELECT idHerramienta, IF(estaDescuento = 1, costoPorLote - ((costoPorLote * descuentoPorcentaje)/100), costoPorLote) AS precioFinal FROM `herramientas`"
-
+                if(objeto_consulta.pmb == "true") consultaSQL = "SELECT idHerramienta, IF(estaDescuento = 1, costoPorLote - ((costoPorLote * descuentoPorcentaje)/100), costoPorLote) AS precioFinal FROM `herramientas`"
+                
                 if(objeto_consulta.categoria != ""){
                     condiciones.push("categoria = ?")
                     valores.push(objeto_consulta.categoria)
@@ -269,14 +302,14 @@ const server = http.createServer((request, response) => {
                 }
 
                 if(condiciones.length != 0){
-                    consultaSQL += " WHERE " + condiciones.join(" AND ");
+                    consultaSQL += " WHERE " + condiciones.join(" AND ") ;
                 }
 
                 if(objeto_consulta.pma == "true") consultaSQL += " ORDER BY precioFinal DESC"
 
                 if(objeto_consulta.categoria == "true") consultaSQL += " ORDER BY precioFinal ASC"
 
-                console.log(consultaSQL)
+                //console.log(consultaSQL)
 
                 conexion_db.query(consultaSQL, valores, (err, resultado) => {
                     if(err){
@@ -304,7 +337,7 @@ const server = http.createServer((request, response) => {
                     for(i = 0; i < resultado.length; i++){
                         arregloId[i] = resultado[i].idHerramienta
                     }
-                    console.log(arregloId)
+                    //console.log(arregloId)
 
                     arregloIdsAMandar = [...new Set(arregloId)]
                     //console.log(----------------------------)
@@ -363,115 +396,6 @@ const server = http.createServer((request, response) => {
                return 0
             }
 
-            /*if(request.url.startsWith("/obtener_ids_filtrado_de_")){
-                let concepto = request.url.replace("/obtener_ids_filtrado_de_", "")
-
-                const objeto_consultas = {
-                    consultas: [
-                        {"precioAlto": "SELECT idHerramienta FROM `herramientas` ORDER BY `herramientas`.`costoPorLote` DESC"},
-                        {"precioBajo": "SELECT idHerramienta FROM `herramientas` ORDER BY `herramientas`.`costoPorLote` ASC"},
-                        {"promociones": "SELECT idHerramienta FROM `herramientas` WHERE estaDescuento = 1"},
-
-                        {"herManual": "SELECT idHerramienta FROM `herramientas` WHERE categoria = 'herManual'"},
-                        {"herElectrica": "SELECT idHerramienta FROM `herramientas` WHERE categoria = 'herElectrica'"},
-                        {"herEstacionaria": "SELECT idHerramienta FROM `herramientas` WHERE categoria = 'herEstacionaria'"},
-                        {"contenedores": "SELECT idHerramienta FROM `herramientas` WHERE categoria = 'contenedores'"},
-                        {"compresores": "SELECT idHerramienta FROM `herramientas` WHERE categoria = 'compresores'"},
-                        {"sujecion": "SELECT idHerramienta FROM `herramientas` WHERE categoria = 'sujecion'"},
-                        {"bisagras": "SELECT idHerramienta FROM `herramientas` WHERE categoria = 'bisagras'"},
-                        {"manijas": "SELECT idHerramienta FROM `herramientas` WHERE categoria = 'manijas'"},
-                        {"tornilleria": "SELECT idHerramienta FROM `herramientas` WHERE categoria = 'tornilleria'"},
-                        {"soldadura": "SELECT idHerramienta FROM `herramientas` WHERE categoria = 'soldadura'"},
-
-                        {"dewalt": "SELECT idHerramienta FROM `herramientas` WHERE marca = 'dewalt'"},
-                        {"milwaukee": "SELECT idHerramienta FROM `herramientas` WHERE marca = 'milwaukee'"},
-                        {"bocsh": "SELECT idHerramienta FROM `herramientas` WHERE marca = 'bocsh'"},
-                        {"makita": "SELECT idHerramienta FROM `herramientas` WHERE marca = 'makita'"},
-                        {"stanley": "SELECT idHerramienta FROM `herramientas` WHERE marca = 'stanley'"},
-                        {"ryobi": "SELECT idHerramienta FROM `herramientas` WHERE marca = 'ryobi'"},
-                        {"infra": "SELECT idHerramienta FROM `herramientas` WHERE marca = 'infra'"},
-                        {"truper": "SELECT idHerramienta FROM `herramientas` WHERE marca = 'truper'"},
-                        {"generica": "SELECT idHerramienta FROM `herramientas` WHERE marca = 'generica'"},
-
-                        {"nada": "SELECT idHerramienta FROM `herramientas`"}
-                    ]
-                }
-
-                let arregloConceptos = []
-                if(concepto && concepto != "") arregloConceptos = concepto.split("_")
-                else arregloConceptos.push("nada")
-
-                let arregloConcatenadoIds = []
-
-                for(i = 0; i < arregloConceptos.length; i++){
-                    let consultaObjeto = null //variable para guardar el objeto que se va a consutlar
-
-                    for (j = 0; j < objeto_consultas.consultas.length; j++) { //recorremos el arreglo de las consultas
-                        //console.log("entra al for")
-                        const objetoActual = objeto_consultas.consultas[j] //guardamo el bjeto actual de objeto consultas en el indice j
-                        if (objetoActual[arregloConceptos[i]]) { //verificamos que esté y guardamos el objeto
-                            //console.log("entra al if")
-                            consultaObjeto = objetoActual
-                            break;
-                        }
-                    }
-
-                    //console.log(consultaObjeto)
-                    //console.log("-----------------------------------------------")
-                    if(consultaObjeto){
-                        const consulta = consultaObjeto[arregloConceptos[i]] //estamos en el concepto actual, se tomo el query del objeto
-                        //console.log(consulta)
-                        conexion_db.query(consulta, (err, resultado) => {
-                            if(err){
-                                console.log(err)
-                                const objeto_error = {
-                                    "mensaje": "error, petición no válida"
-                                }
-                                response.statusCode = 400;
-                                response.setHeader('Content-Type', 'application/json')
-                                response.end(JSON.stringify(objeto_error))
-                                return 0
-                            }
-
-                            if(resultado.length == 0){
-                                const objeto_error = {
-                                    "mensaje": "error, herramienta no encontrada"
-                                }
-                                response.statusCode = 404;
-                                response.setHeader('Content-Type', 'application/json')
-                                response.end(JSON.stringify(objeto_error))
-                                return 0
-                            }
-
-                            //console.log(resultado)
-
-                            let arregloId = []
-                            for(i = 0; i < resultado.length; i++){
-                                //console.log("entra al for")
-                                arregloId[i] = resultado[i].idHerramienta
-                                //console.log(arregloId[i])
-
-                            }
-
-                            arregloConcatenadoIds = arregloConcatenadoIds.concat(arregloId)
-                            arregloIdsAMandar = [...new Set(arregloConcatenadoIds)]
-                            //console.log(----------------------------)
-                            //console.log(arregloConcatenadoIds)
-
-                            const objeto_ids = {
-                                "idHerramientas": arregloIdsAMandar
-                            };
-
-                            response.statusCode = 200;
-                            response.setHeader("Content-Type", "application/json");
-                            response.end(JSON.stringify(objeto_ids));
-                        })
-                    }
-                }
-                
-                return 0
-            }*/
-
             /*----------sobre nosotros-------------------------------------------------------------------------------------------------*/
             if(request.url == "/nosotros"){
                 response.statusCode = 200
@@ -485,6 +409,130 @@ const server = http.createServer((request, response) => {
                 response.setHeader("Content-Type", "application/json")
                 response.end(JSON.stringify(objetoNosotros))
                 return 0;
+            }
+
+            /*------INVENTARIO---------------------------------------------------------------------------------------------------------- */
+
+            if(request.url == "/obtener_mis_herramientas"){
+                if (!authHeader || authHeader == "" || authHeader == null || authHeader == "null") {
+                    response.statusCode = 401;
+                    response.setHeader('Content-Type', 'application/json');
+                    response.end(JSON.stringify({
+                        "mensaje": "token no proporcionado"
+                    }));
+                    return 0
+                }
+
+                jwt.verify(authHeader, llave, (err, decoded) => {
+                    if(err){
+                        console.log("Error al verificar la autenticidad", err)
+
+                        response.statusCode = 401;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify({
+                            "mensaje": "Token inválido o expirado, por favor inicie sesión nuevamente"
+                        }));
+                        return 0
+                    }
+
+                    conexion_db.query("SELECT idUsuario FROM `usuarios` WHERE email = ?", [decoded.username], (err, resultado) => {
+                        console.log("----------------------")
+                        console.log(resultado)
+                        if(err){
+                            console.log(err)
+                            const objeto_error = {
+                                "mensaje": "Error intentelo de nuevo"
+                            }
+                            response.statusCode = 401;
+                            response.setHeader('Content-Type', 'application/json');
+                            response.end(JSON.stringify(objeto_error));
+                            return 0
+                        }
+
+                        //console.log(resultado[0].idUsuario)
+                        if(resultado.length == 0){
+                            console.log(err)
+                            const objeto_error = {
+                                "mensaje": "No hay nada por aquí"
+                            }
+                            response.statusCode = 404;
+                            response.setHeader('Content-Type', 'application/json');
+                            response.end(JSON.stringify(objeto_error));
+                            return 0
+                        }
+
+                        conexion_db.query("SELECT idHerramienta FROM `herramientas` WHERE vendedor = ?", [resultado[0].idUsuario], (err, res) => {
+                            console.log(res)
+                            if(err){
+                                console.log(err)
+                                const objeto_error = {
+                                    "mensaje": "Error intentelo de nuevo"
+                                }
+                                response.statusCode = 401;
+                                response.setHeader('Content-Type', 'application/json');
+                                response.end(JSON.stringify(objeto_error));
+                                return 0
+                            }
+
+                            //console.log(resultado)
+                            if(resultado.length == 0){
+                                console.log(err)
+                                const objeto_error = {
+                                    "mensaje": "No hay nada por aquí"
+                                }
+                                response.statusCode = 404;
+                                response.setHeader('Content-Type', 'application/json');
+                                response.end(JSON.stringify(objeto_error));
+                                return 0
+                            }
+
+                            let arregloId = []
+                            for(i = 0; i < res.length; i++){
+                                arregloId[i] = res[i].idHerramienta
+                            }
+
+                            const objeto_ids = {
+                                "idHerramientas": arregloId
+                            }
+
+                            //console.log(objeto_ids)
+                            response.statusCode = 200
+                            response.setHeader("Content-Type", "application/json")
+                            response.end(JSON.stringify(objeto_ids))
+                        })
+
+                        //conexion_db.end();
+                    })
+                })
+                
+                return 0;
+            }
+
+
+            if(request.url == "/tipos"){
+                let objetoTipos = {
+                    tipos: []
+                }
+                for(i = 0; i < objetoCategorias.tipos.length; i++){
+                    objetoTipos.tipos.push(objetoCategorias.tipos[i].cliente)
+                }
+                response.statusCode = 200;
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(objetoTipos));
+                return 0
+            }
+
+            if(request.url == "/marcas"){
+                let objetoMarcas = {
+                    marcas: []
+                }
+                for(i = 0; i < objetoCategorias.marcas.length; i++){
+                    objetoMarcas.marcas.push(objetoCategorias.marcas[i].cliente)
+                }
+                response.statusCode = 200;
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(objetoMarcas));
+                return 0
             }
 
             /*------USUARIOS---------------------------------------------------------------------------------------------------------- */
@@ -570,7 +618,7 @@ const server = http.createServer((request, response) => {
                             response.end(JSON.stringify(objeto_error));
                         }
 
-                        if(resultado.length <= 0){
+                        if(resultado.length == 0){
                             const objeto_error = {
                                     "mensaje": "Correo y/o contraseña incorrectos"
                                 }
@@ -582,7 +630,7 @@ const server = http.createServer((request, response) => {
 
                         //console.log(resultado)
 
-                        const token = jwt.sign({username: resultado[0].email}, llave, {expiresIn: "10m"})
+                        const token = jwt.sign({username: resultado[0].email}, llave, {expiresIn: "1h"})
                         
                         //console.log(token)
 
@@ -653,6 +701,104 @@ const server = http.createServer((request, response) => {
                     })
 
                     return 0
+                }
+
+                /* INVENTARIO */
+                if(request.url == "/subir_nuevo_producto"){
+                    //console.log(JSON.parse(informacion.toString()))
+
+                    let objetoInsertar = JSON.parse(informacion.toString())
+
+                    if (!authHeader || authHeader == "" || authHeader == null || authHeader == "null") {
+                        response.statusCode = 401;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify({
+                            "mensaje": "token no proporcionado"
+                        }));
+                        return 0
+                    }
+
+                    
+                    jwt.verify(authHeader, llave, (err, decoded) => {
+                        if(err){
+                            console.log("Error al verificar la autenticidad", err)
+
+                            response.statusCode = 401;
+                            response.setHeader('Content-Type', 'application/json');
+                            response.end(JSON.stringify({
+                                "mensaje": "Token inválido o expirado, por favor inicie sesión nuevamente"
+                            }));
+                            return 0
+                        }
+
+                        //console.log("si esta autorizado")
+
+                        conexion_db.query("SELECT idUsuario FROM `usuarios` WHERE email = ?", [decoded.username], (err, resultado) => {
+                            console.log("----------------------")
+                            console.log(resultado)
+                            if(err){
+                                console.log(err)
+                                const objeto_error = {
+                                    "mensaje": "Error intentando obtener tu usuario, inicie sesión nuevamente"
+                                }
+                                response.statusCode = 401;
+                                response.setHeader('Content-Type', 'application/json');
+                                response.end(JSON.stringify(objeto_error));
+                                return 0
+                            }
+
+                            for(i = 0; i < objetoCategorias.marcas.length; i++){
+                                if(objetoCategorias.marcas[i].cliente == objetoInsertar.opcionMarca){
+                                    objetoInsertar.opcionMarca = objetoCategorias.marcas[i].bd
+                                    break
+                                }
+                            }
+
+                            for(i = 0; i < objetoCategorias.tipos.length; i++){
+                                if(objetoCategorias.tipos[i].cliente == objetoInsertar.opcionTipo){
+                                    objetoInsertar.opcionTipo = objetoCategorias.tipos[i].bd
+                                    break
+                                }
+                            }
+                            
+                            if(objetoInsertar.estaPromocion) objetoInsertar.estaPromocion = 1
+                            else objetoInsertar.estaPromocion = 0
+
+                            if(objetoInsertar.estatus) objetoInsertar.estatus = 1
+
+                            //if(objetoInsertar.ponerPromocion == '0') objetoInsertar.ponerPromocion = parseInt()
+
+                            const imgHerramienta64 = objetoInsertar.imagen.split(",")[1]
+                            let imagenBinariaHerramienta = Buffer(imgHerramienta64, "base64")
+                            objetoInsertar.imagen = imagenBinariaHerramienta
+
+                            //console.log("-------------------------------------------------------------------------------------------------")
+                            console.log(objetoInsertar)
+
+                            let consultaSQL = "INSERT INTO `herramientas`(`marca`, `categoria`, `titulo`, `estaDescuento`, `descuentoPorcentaje`, `paquetesPorLote`, `costoPorLote`, `descripcion`, `imagen`, `activo`, `vendedor`) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
+                            let condicion = [objetoInsertar.opcionMarca, objetoInsertar.opcionTipo, objetoInsertar.titulo, objetoInsertar.estaPromocion, objetoInsertar.ponerPromocion, objetoInsertar.paquetePorLote, objetoInsertar.precioPorLote, objetoInsertar.descripcion, objetoInsertar.imagen, objetoInsertar.estatus, resultado[0].idUsuario]
+                            console.log(condicion)
+                            
+                            conexion_db.query(consultaSQL, condicion, (err, resp) => {
+                                console.log("Se esta imprimiendo la respuesta del query", resp)
+                                if (err) {
+                                    console.log("Error al insertar", err);
+                                    return 0
+                                }
+
+                                const objeto_mensaje = {
+                                    "mensaje": "Producto creado correctamente"
+                                }
+                                response.statusCode = 200;
+                                response.setHeader('Content-Type', 'application/json');
+                                response.end(JSON.stringify(objeto_mensaje));
+                                
+                            })
+                        })
+                        //conexion_db.end();
+                    })
+                    
+                    return 0;
                 }
 
                 response.statusCode = 404
@@ -768,8 +914,8 @@ const server = http.createServer((request, response) => {
                                 //const idUsuario = resultado[0].idUsuario
                                 //console.log("idUsuario", idUsuario)
                                 conexion_db.query("SELECT rol FROM `usuarios` WHERE idUsuario = ?", [resultado[0].idUsuario], (err, res) => {
-                                    console.log("idConsulta ",resultado[0].idUsuario)
-                                    console.log("respuesta ", res[0])
+                                    //console.log("idConsulta ",resultado[0].idUsuario)
+                                    //console.log("respuesta ", res[0])
                                     if(err){
                                         console.log("Error al consultar el rol", err)
                                         conexion_db.end()
@@ -797,6 +943,77 @@ const server = http.createServer((request, response) => {
                     return 0;
                 }
 
+                if(request.url.startsWith("/editar_producto")){
+                    //console.log("entra a la edicion")
+                    //console.log(request.url)
+                    
+
+                    if (!authHeader || authHeader == "" || authHeader == null || authHeader == "null") {
+                        response.statusCode = 401;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify({
+                            "mensaje": "token no proporcionado"
+                        }));
+                        return 0
+                    }
+
+                    //console.log(infoEditarJson)
+
+                    for(i = 0; i < objetoCategorias.marcas.length; i++){
+                        if(objetoCategorias.marcas[i].cliente == infoEditarJson.inputmarcaProducto){
+                            infoEditarJson.inputmarcaProducto = objetoCategorias.marcas[i].bd
+                            break
+                        }
+                    }
+
+                    for(i = 0; i < objetoCategorias.tipos.length; i++){
+                        if(objetoCategorias.tipos[i].cliente == infoEditarJson.inputtipoProducto){
+                            infoEditarJson.inputtipoProducto = objetoCategorias.tipos[i].bd
+                            break
+                        }
+                    }
+
+                    let consultaSQL
+                    let condiciones
+                    if(infoEditarJson.imagen != null){
+                        const imgHerramientaEditar64 = infoEditarJson.imagen.split(",")[1]
+                        let imagenBinariaEditar = Buffer(imgHerramientaEditar64, "base64")
+                        infoEditarJson.imagen = imagenBinariaEditar
+
+                        consultaSQL = "UPDATE `herramientas` SET `marca`= ?,`categoria`= ?,`titulo`= ?,`estaDescuento`= ?,`descuentoPorcentaje`= ?,`paquetesPorLote`= ?,`costoPorLote`= ?,`descripcion`= ?,`imagen`= ?,`activo`= ? WHERE idHerramienta = ?"
+                        condiciones = [infoEditarJson.inputmarcaProducto, infoEditarJson.inputtipoProducto, infoEditarJson.nombreProducto, infoEditarJson.estaPromocion, infoEditarJson.ponerPromocion, infoEditarJson.paquetePorLote, infoEditarJson.precioPorLote, infoEditarJson.textoDescripcion, infoEditarJson.imagen, infoEditarJson.activo, infoEditarJson.idHerramienta]
+                    }else{
+                        consultaSQL = "UPDATE `herramientas` SET `marca`= ?,`categoria`= ?,`titulo`= ?,`estaDescuento`= ?,`descuentoPorcentaje`= ?,`paquetesPorLote`= ?,`costoPorLote`= ?,`descripcion`= ?,`activo`= ? WHERE idHerramienta = ?"
+                        condiciones = [infoEditarJson.inputmarcaProducto, infoEditarJson.inputtipoProducto, infoEditarJson.nombreProducto, infoEditarJson.estaPromocion, infoEditarJson.ponerPromocion, infoEditarJson.paquetePorLote, infoEditarJson.precioPorLote, infoEditarJson.textoDescripcion, infoEditarJson.activo, infoEditarJson.idHerramienta]
+                    }
+
+                     
+                    //console.log(consultaSQL)
+                    //console.log(condiciones)
+
+                    conexion_db.query(consultaSQL, condiciones, (err) => {
+                        if (err) {
+                            console.log("Error al editar", err);
+                            response.statusCode = 401;
+                            response.setHeader('Content-Type', 'application/json');
+                            response.end(JSON.stringify({
+                                "mensaje": "Error al editar"
+                            }));
+                            conexion_db.end()
+                            return 0
+                        }
+
+                        const objeto_mensaje = {
+                            "mensaje": "Herramienta editada correctamente"
+                        }
+                        response.statusCode = 200;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify(objeto_mensaje));
+                    })
+
+                    return;
+                }
+
                 response.statusCode = 404
                 response.setHeader("Content-Type", "application/json")
                 response.end(JSON.stringify({
@@ -805,6 +1022,70 @@ const server = http.createServer((request, response) => {
             })
             break;
         case "DELETE":
+            request.on("data", info => {
+
+                let objetoHerramienta = JSON.parse(info.toString())
+                if(request.url == "/eliminar_herramienta"){
+                    //onsole.log(infoEditarJson)
+
+                    if (!authHeader || authHeader == "" || authHeader == null || authHeader == "null") {
+                        response.statusCode = 401;
+                        response.setHeader('Content-Type', 'application/json');
+                        response.end(JSON.stringify({
+                            "mensaje": "token no proporcionado"
+                        }));
+                        return 0
+                    }
+
+                    jwt.verify(authHeader, llave, (err, decoded) => {
+                        if(err){
+                            console.log("Error al verificar la autenticidad", err)
+
+                            response.statusCode = 401;
+                            response.setHeader('Content-Type', 'application/json');
+                            response.end(JSON.stringify({
+                                "mensaje": "Token inválido o expirado, por favor inicie sesión nuevamente"
+                            }));
+                            return 0
+                        }
+
+                        let consultaSQL = "DELETE FROM `herramientas` WHERE idHerramienta = ?"
+                        let condicion = [objetoHerramienta.idHerramienta]
+                        
+                        conexion_db.query(consultaSQL, condicion, (err, res) => {
+                            
+                            if(err){
+                                console.log("Error al consultar el rol", err)
+                                const objeto_mensaje = {
+                                    "mensaje": "Error al eliminar la herramienta, vuelva a intentarlo"
+                                }
+                                response.statusCode = 200;
+                                response.setHeader('Content-Type', 'application/json');
+                                response.end(JSON.stringify(objeto_mensaje));
+                                
+                                conexion_db.end()
+                                return 0
+                            }
+
+                            const objeto_mensaje = {
+                                "mensaje": "Se ha eliminado correctamente la herramienta"
+                            }
+
+                            response.statusCode = 200;
+                            response.setHeader('Content-Type', 'application/json');
+                            response.end(JSON.stringify(objeto_mensaje));
+                        })
+                            
+                    })
+                    return 0;
+                }
+
+                response.statusCode = 404
+                response.setHeader("Content-Type", "application/json")
+                response.end(JSON.stringify({
+                    "mensaje": "Nada por aquí"
+                }))
+            })
             break;
         case "OPTIONS":
             response.writeHead(204)

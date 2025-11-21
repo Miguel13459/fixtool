@@ -71,13 +71,13 @@
     flex-direction: column;
 }
 
-input[type="text"], input[type="password"]{
+#formularioRegistro input[type="text"], input[type="password"]{
     margin: 8px 0;
     padding: 10px;
     font-size: 1rem;
 }
 
-input[type="checkbox"]{
+#formularioRegistro input[type="checkbox"]{
     margin-right: 8px;
     accent-color: #CC6D19; /*no olvidar esto es para que el check cambie de color*/
     width: 20px;
@@ -87,10 +87,16 @@ input[type="checkbox"]{
     margin-bottom: 24px;
 }
 
-input[type="text"]:focus{
+#formularioRegistro input[type="text"]:focus{
     background-color: #f4f7fa;
     border-color:#CC6D19;
 }
+
+#formularioRegistro input[type="text"]:focus{
+    background-color: #f4f7fa;
+    border-color:#CC6D19;
+}
+
 
 .inputTamDoble{
     width: 48%;

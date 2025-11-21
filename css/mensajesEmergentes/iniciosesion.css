@@ -126,3 +126,29 @@
 #vendedorBoton{
     display: none;
 }
+
+#formularioInicioSesion input[type="text"], input[type="password"]{
+    margin: 8px 0;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+#formularioInicioSesion input[type="checkbox"]{
+    margin-right: 8px;
+    accent-color: #CC6D19; /*no olvidar esto es para que el check cambie de color*/
+    width: 20px;
+}
+
+.elementosLogin{
+    margin-bottom: 24px;
+}
+
+#formularioInicioSesion input[type="text"]:focus{
+    background-color: #f4f7fa;
+    border-color:#CC6D19;
+}
+
+#formularioInicioSesion input[type="text"]:focus{
+    background-color: #f4f7fa;
+    border-color:#CC6D19;
+}

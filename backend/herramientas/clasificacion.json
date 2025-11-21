@@ -1,0 +1,81 @@
+{
+    "tipos": [
+        {
+            "bd": "herManual",
+            "cliente": "Herramientas manuales"
+        },
+        {
+            "bd": "herElectrica",
+            "cliente": "Herramienta eléctrica"
+        },
+        {
+            "bd": "herEstacionaria",
+            "cliente": "Herramienta estacionaria"
+        },
+        {
+            "bd": "contenedores",
+            "cliente": "Contenedores"
+        },
+        {
+            "bd": "compresores",
+            "cliente": "Compresores"
+        },
+        {
+            "bd": "sujecion",
+            "cliente": "Sujeción"
+        },
+        {
+            "bd": "manijas",
+            "cliente": "manijas"
+        },
+        {
+            "bd": "tornilleria",
+            "cliente": "Tornillería"
+        },
+        {
+            "bd": "soldadura",
+            "cliente": "Soldadura"}
+    ],
+    "marcas": [
+        {
+            "bd": "dewalt",
+            "cliente": "DeWalt"
+        },
+        {
+            "bd": "milwaukee",
+            "cliente": "Milwaukee"
+        },
+        {
+            "bd": "bocsh",
+            "cliente": "BOCSH"
+        },
+        {
+            "bd": "makita",
+            "cliente": "Makita"
+        },
+        {
+            "bd": "stanley",
+            "cliente": "Stanley"
+        },
+        {
+            "bd": "ryobi",
+            "cliente": "Ryobi"
+        },
+        {
+            "bd": "infra",
+            "cliente": "INFRA"
+        },
+        {
+            "bd": "truper",
+            "cliente": "Truper"
+        },
+        {
+            "bd": "husky",
+            "cliente": "Husky"
+        },
+        {
+            "bd": "generica",
+            "cliente": "Genérica"
+        }
+    ]
+}

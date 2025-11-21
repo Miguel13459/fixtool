@@ -57,7 +57,7 @@ function MandarRegistro(){
         let hayCamposVacios = false
         for(i = 0; i < inputs.length; i++){
             //console.log("entra al for")
-            if(inputs[i].value.trim() === "" || inputs[i].value.trim() === null){
+            if(inputs[i].value.trim() == "" || inputs[i].value.trim() == null){
                 inputs[i].style.border = "2px solid red";
                 hayCamposVacios = true
                 //alert("El campo " + inputs[i].name + " está vacío.")
